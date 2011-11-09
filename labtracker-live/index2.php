@@ -23,20 +23,22 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+        <link rel="stylesheet" href="masterStyle.css" type="text/css" media="screen" title="no title" charset="utf-8">
 	<script language="javascript" type="text/javascript" charset="utf-8" src="labtracker-live-main.js"></script>
 	<script language="javascript" type="text/javascript" charset="utf-8" src="labtracker-live-server.js"></script>
 	<script language="javascript" type="text/javascript" charset="utf-8" src="labtracker-live-visualization.js"></script>
 	<title>LabTracker-Live</title>
 </head>
 <body>
-	<h1>LabTracker-Live</h1>
-	
+	<h1>LabTracker-Live</h1>	
 </body>
+        <!--black = 171717
+      dark blue = 0C5A81
+      light grey = D7E0E5
+      white = FFFFFF
+      orange = D84704
+      -->
 	<a href="plotActivity.php">Look at currently logged activity.</a>
 	<br>	
 	<a href="plotCompileErrors.php">Look at recent compile errors.</a>
-	<br>
-	<a href="http://www.rgraph.net" target="_blank">
-    	Charts made with RGraph: HTML5 Javascript charts library
-	</a>
 </html>

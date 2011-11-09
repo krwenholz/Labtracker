@@ -12,8 +12,12 @@
 					OR die('Could not connect to MySQL: ' . mysql_error());
     mysql_select_db($database);
     
-   $result = mysql_query("SELECT MethodName, COUNT(*) FROM activity_logs 
-				WHERE NOW() - TIMESTAMP < 2300 GROUP BY MethodName ORDER BY COUNT(*) DESC;");
+   $result = mysql_query("SELECT SUB1.methodName, COUNT(*)
+			 FROM (SELECT UserID, methodName
+			       FROM compile_errors C1
+			       WHERE TimeStamp >= ALL(SELECT TimeStamp FROM compile_errors C2 WHERE C1.UserID = C2.UserID) AND NOW() - TimeStamp < 100) AS SUB1
+			 GROUP BY SUB1.methodName
+			 ORDER BY COUNT(*) DESC;");
     if ($result) {
     
         $labels = array();
@@ -37,14 +41,19 @@
 	</Title>
 <head>
 
-    <!-- Don't forget to update these paths -->
+    <!--Don\'t forget to update these paths -->
 
 	<script src="libraries/RGraph.common.core.js" ></script>
     <script src="libraries/RGraph.common.tooltips.js" ></script>
 
     <script src="libraries/RGraph.common.effects.js" ></script>
     <script src="libraries/RGraph.hbar.js" ></script>
-    
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+        <link rel="stylesheet" href="masterStyle.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<script language="javascript" type="text/javascript" charset="utf-8" src="labtracker-live-main.js"></script>
+	<script language="javascript" type="text/javascript" charset="utf-8" src="labtracker-live-server.js"></script>
+	<script language="javascript" type="text/javascript" charset="utf-8" src="labtracker-live-visualization.js"></script>
+	<title>LabTracker-Live</title>    
 </head>
 <body>
     
@@ -87,3 +96,13 @@
 
 </body>
 </html>
+
+<body>
+	<h1>LabTracker-Live</h1>	
+</body>
+        <!--black = 171717
+      dark blue = 0C5A81
+      light grey = D7E0E5
+      white = FFFFFF
+      orange = D84704
+      -->
