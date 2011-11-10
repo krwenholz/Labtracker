@@ -3,7 +3,7 @@ package labtracker.blueJ.dataCollection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.SQLException; 
 
 /**
  * A class for sending lines of output via a websocket.  All events are of the form 
@@ -23,6 +23,7 @@ public class EventAntennae{
 	 */
 	public EventAntennae(){
 		this.userID = System.getProperty("user.name");
+		this.userID = ""+this.userID.hashCode();
 
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
