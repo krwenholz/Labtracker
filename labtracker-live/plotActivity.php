@@ -36,28 +36,34 @@
     }
 ?>
 <html>
-	<Title>
-	Activity Logging
-	</Title>
 <head>
-
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="stylesheet" href="masterStyle.css" type="text/css" media="screen" title="no title" charset="utf-8">
+   
     <!--Don\'t forget to update these paths -->
 
-	<script src="libraries/RGraph.common.core.js" ></script>
+    <script src="libraries/RGraph.common.core.js" ></script>
     <script src="libraries/RGraph.common.tooltips.js" ></script>
 
     <script src="libraries/RGraph.common.effects.js" ></script>
     <script src="libraries/RGraph.hbar.js" ></script>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-        <link rel="stylesheet" href="masterStyle.css" type="text/css" media="screen" title="no title" charset="utf-8">
-	<script language="javascript" type="text/javascript" charset="utf-8" src="labtracker-live-main.js"></script>
-	<script language="javascript" type="text/javascript" charset="utf-8" src="labtracker-live-server.js"></script>
-	<script language="javascript" type="text/javascript" charset="utf-8" src="labtracker-live-visualization.js"></script>
-	<title>LabTracker-Live</title>    
+
+    <script language="javascript" type="text/javascript" charset="utf-8" src="labtracker-live-main.js"></script>
+    <script language="javascript" type="text/javascript" charset="utf-8" src="labtracker-live-server.js"></script>
+    <script language="javascript" type="text/javascript" charset="utf-8" src="labtracker-live-visualization.js"></script>
+
+    <title>LabTracker-Live</title>    
+
 </head>
 <body>
     
     <h1><span>Labtracker-Live:Activity Logging</span></h1>
+      <!--black = 171717 23,23,23
+      dark blue = 0C5A81 12,90,129
+      light grey = D7E0E5 215,224,229
+      white = FFFFFF 255,255,255
+      orange = D84704 216,71,4
+      -->
     <canvas id="myCanvas" width="900" height="400">[No canvas support]</canvas>
     <script>
         /**
@@ -67,15 +73,14 @@
         {
             var hbar1 = new RGraph.HBar('myCanvas', <?php print($data_string) ?>);
             //alert('chart initialized');
-            var grad = hbar1.context.createLinearGradient(275,0,900, 0);
-            grad.addColorStop(0, 'white');
-            grad.addColorStop(1, 'blue');
+	    hbar1.set('chart.background.grid', true);
+	    hbar1.set('chart.colors', ['D84704']);
+	    hbar1.set('chart.text.color', '#171717');
             //alert('colors initialized');
             
-			hbar1.Set('chart.labels', <?php print($labels_string) ?>);
-			//alert('chart created');
+            hbar1.Set('chart.labels', <?php print($labels_string) ?>);
+	    //alert('chart created');
 			
-            hbar1.Set('chart.strokestyle', 'rgba(0,0,0,0)');
             hbar1.Set('chart.gutter.left', 275);
             hbar1.Set('chart.gutter.right', 10);
             hbar1.Set('chart.background.grid.autofit', true);
@@ -84,9 +89,8 @@
             hbar1.Set('chart.shadow.offsetx', 0);
             hbar1.Set('chart.shadow.offsety', 0);
             hbar1.Set('chart.shadow.blur', 15);
-            hbar1.Set('chart.colors', [grad]);
             
-            if (RGraph.isIE8()) {
+	    if (RGraph.isIE8()) {
                 hbar1.Draw();
             } else {
                 RGraph.Effects.HBar.Grow(hbar1);
@@ -96,13 +100,3 @@
 
 </body>
 </html>
-
-<body>
-	<h1>LabTracker-Live</h1>	
-</body>
-        <!--black = 171717
-      dark blue = 0C5A81
-      light grey = D7E0E5
-      white = FFFFFF
-      orange = D84704
-      -->
