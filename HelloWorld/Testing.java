@@ -1,5 +1,5 @@
  
-/**
+**
  * Write a description of class Testing here.
  * 
  * @author (your name) 
@@ -41,6 +41,6 @@ public class Testing
     
     public boolean gimme(){
         return true;
-        heouhesuonetsuheou
+        
     }
 }
