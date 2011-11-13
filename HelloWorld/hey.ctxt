@@ -1,8 +1,8 @@
 #BlueJ class context
 comment0.params=
 comment0.target=java.lang.String\ heyYou()
-comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ hey\r\n
+comment0.text=\n\ Constructor\ for\ objects\ of\ class\ hey\n
 comment1.params=x
 comment1.target=int\ sampleMethod(int)
-comment1.text=\r\n\ An\ example\ of\ a\ method\ -\ replace\ this\ comment\ with\ your\ own\r\n\ \r\n\ @param\ \ y\ \ \ a\ sample\ parameter\ for\ a\ method\r\n\ @return\ \ \ \ \ the\ sum\ of\ x\ and\ y\ \r\n
+comment1.text=\n\ An\ example\ of\ a\ method\ -\ replace\ this\ comment\ with\ your\ own\n\ \n\ @param\ \ y\ \ \ a\ sample\ parameter\ for\ a\ method\n\ @return\ \ \ \ \ the\ sum\ of\ x\ and\ y\ \n
 numComments=2
