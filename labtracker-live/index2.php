@@ -18,7 +18,7 @@
 			`SessionID` VARCHAR(50) NOT NULL DEFAULT"." '".$Result."' AFTER `UserID`;");
 
     mysql_query("ALTER TABLE `activity_logs`  CHANGE COLUMN `SessionID` 
-			`SessionID` VARCHAR(50) NOT NULL DEFAULT $Result AFTER `UserID`;");
+			`SessionID` VARCHAR(50) NOT NULL DEFAULT"." '". $Result."' AFTER `UserID`;");
  ?>
 <html>
 <head>

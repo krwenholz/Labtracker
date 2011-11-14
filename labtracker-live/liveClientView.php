@@ -13,15 +13,19 @@
 					OR die('Could not connect to MySQL: ' . mysql_error());
     mysql_select_db($database);
     
-   $result = mysql_query("SELECT MethodName, COUNT(*) FROM compile_errors 
-				WHERE NOW() - TIMESTAMP < 2300 GROUP BY MethodName ORDER BY COUNT(*) DESC;");
+   $result = mysql_query("SELECT SUB1.MethodName, COUNT(*)
+			 FROM (SELECT UserID, MethodName
+			       FROM compile_errors C1
+			       WHERE TimeStamp >= ALL(SELECT TimeStamp FROM compile_errors C2 WHERE C1.UserID = C2.UserID) AND NOW() - TimeStamp < 500) AS SUB1
+			 GROUP BY SUB1.MethodName
+			 ORDER BY COUNT(*) DESC;");
     if ($result) {
     
         $compileLabels = array();
         $compileData  = array();
     
         while ($row = mysql_fetch_assoc($result)) {
-            $compileLabels[] = $row["MethodName"];
+            $compileLabels[] = $row["methodName"];
             $compileData[]   = $row["COUNT(*)"];
         }
 
@@ -31,12 +35,8 @@
     } else {
         print('MySQL query failed with error: ' . mysql_error());
     }
-   $result = mysql_query("SELECT SUB1.methodName, COUNT(*)
-			 FROM (SELECT UserID, methodName
-			       FROM compile_errors C1
-			       WHERE TimeStamp >= ALL(SELECT TimeStamp FROM compile_errors C2 WHERE C1.UserID = C2.UserID) AND NOW() - TimeStamp < 100) AS SUB1
-			 GROUP BY SUB1.methodName
-			 ORDER BY COUNT(*) DESC;");
+   $result = mysql_query("SELECT MethodName, COUNT(*) FROM activity_logs 
+				WHERE NOW() - TIMESTAMP < 500 GROUP BY MethodName ORDER BY COUNT(*) DESC;");
     if ($result) {
     
         $labels = array();
@@ -94,11 +94,11 @@
         window.onload = function ()
         {
             var hbar1 = new RGraph.HBar('activityCanvas', <?php print($activityData_string) ?>);
-            alert('chart initialized');
+            //alert('chart initialized');
 	    hbar1.Set('chart.background.grid', true);
 	    hbar1.Set('chart.colors', ['D84704']);
 	    hbar1.Set('chart.text.color', '#171717');
-            alert('colors initialized');
+            //alert('colors initialized');
             
             hbar1.Set('chart.labels', <?php print($activityLabels_string) ?>);
 			
@@ -111,15 +111,15 @@
             hbar1.Set('chart.shadow.offsety', 0);
             hbar1.Set('chart.shadow.blur', 15);
 	    
-	    alert("activities drawn");
+	    //alert("activities drawn");
         
 
             var hbar2 = new RGraph.HBar('compilesCanvas', <?php print($compileData_string) ?>);
-            alert('chart initialized');
+            //alert('chart initialized');
 	    hbar2.Set('chart.background.grid', true);
 	    hbar2.Set('chart.colors', ['D84704']);
 	    hbar2.Set('chart.text.color', '#171717');
-            alert('colors initialized');
+            //alert('colors initialized');
             
             hbar2.Set('chart.labels', <?php print($compileLabels_string) ?>);
 	    //alert('chart created');
@@ -139,7 +139,7 @@
             } else {
                 RGraph.Effects.HBar.Grow(hbar1);
 		RGraph.Effects.HBar.Grow(hbar2);
-            }alert("compiles drawn");
+            }//alert("compiles drawn");
         }
     </script>
 </body>
