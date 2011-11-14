@@ -83,7 +83,10 @@
       white = FFFFFF 255,255,255
       orange = D84704 216,71,4
       -->
+    <h2>Current Activity</h2>
     <canvas id="activityCanvas" width="900" height="400">[No canvas support]</canvas>
+    <h2>Recent Compile Errors</h2>
+    <canvas id="compilesCanvas" width="900" height="400">[No canvas support]</canvas>
     <script>
         /**
         * The onload function creates the chart
@@ -92,9 +95,9 @@
         {
             var hbar1 = new RGraph.HBar('activityCanvas', <?php print($activityData_string) ?>);
             alert('chart initialized');
-	    hbar1.set('chart.background.grid', true);
-	    hbar1.set('chart.colors', ['D84704']);
-	    hbar1.set('chart.text.color', '#171717');
+	    hbar1.Set('chart.background.grid', true);
+	    hbar1.Set('chart.colors', ['D84704']);
+	    hbar1.Set('chart.text.color', '#171717');
             alert('colors initialized');
             
             hbar1.Set('chart.labels', <?php print($activityLabels_string) ?>);
@@ -107,27 +110,15 @@
             hbar1.Set('chart.shadow.offsetx', 0);
             hbar1.Set('chart.shadow.offsety', 0);
             hbar1.Set('chart.shadow.blur', 15);
-            
-	    if (RGraph.isIE8()) {
-                hbar1.Draw();
-            } else {
-                RGraph.Effects.HBar.Grow(hbar1);
-            }alert("activities drawn");
-        }
-    </script>
+	    
+	    alert("activities drawn");
+        
 
-	<canvas id="compilesCanvas" width="900" height="400">[No canvas support]</canvas>
-    <script>
-        /**
-        * The onload function creates the chart
-        */
-        window.onload = function ()
-        {
             var hbar2 = new RGraph.HBar('compilesCanvas', <?php print($compileData_string) ?>);
             alert('chart initialized');
-	    hbar2.set('chart.background.grid', true);
-	    hbar2.set('chart.colors', ['D84704']);
-	    hbar2.set('chart.text.color', '#171717');
+	    hbar2.Set('chart.background.grid', true);
+	    hbar2.Set('chart.colors', ['D84704']);
+	    hbar2.Set('chart.text.color', '#171717');
             alert('colors initialized');
             
             hbar2.Set('chart.labels', <?php print($compileLabels_string) ?>);
@@ -143,11 +134,13 @@
             hbar2.Set('chart.shadow.blur', 15);
             
 	    if (RGraph.isIE8()) {
+                hbar1.Draw();
                 hbar2.Draw();
             } else {
-                RGraph.Effects.HBar.Grow(hbar2);
+                RGraph.Effects.HBar.Grow(hbar1);
+		RGraph.Effects.HBar.Grow(hbar2);
             }alert("compiles drawn");
         }
-    <script>
+    </script>
 </body>
 </html>

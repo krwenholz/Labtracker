@@ -38,7 +38,5 @@
       white = FFFFFF
       orange = D84704
       -->
-	<a href="plotActivity.php">Look at currently logged activity.</a>
-	<br>	
-	<a href="plotCompileErrors.php">Look at recent compile errors.</a>
+	<a href="liveClientView.php">Go to the live view.</a>
 </html>
