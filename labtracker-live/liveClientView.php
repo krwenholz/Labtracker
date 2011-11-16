@@ -12,13 +12,11 @@
     $connection = mysql_connect($hostname, $username, $password) 
 					OR die('Could not connect to MySQL: ' . mysql_error());
     mysql_select_db($database);
-    
-   $result = mysql_query("SELECT SUB1.MethodName, COUNT(*)
-			 FROM (SELECT UserID, MethodName
-			       FROM compile_errors C1
-			       WHERE TimeStamp >= ALL(SELECT TimeStamp FROM compile_errors C2 WHERE C1.UserID = C2.UserID) AND NOW() - TimeStamp < 500) AS SUB1
-			 GROUP BY SUB1.MethodName
-			 ORDER BY COUNT(*) DESC;");
+///////////////////////////
+//BUILD THE COMPILE DATA   
+////////////////////////// 
+   $result = mysql_query("SELECT MethodName, COUNT(*) FROM compile_errors 
+				WHERE NOW() - TIMESTAMP < 5000 GROUP BY MethodName ORDER BY COUNT(*) DESC;");
     if ($result) {
     
         $compileLabels = array();
@@ -35,8 +33,15 @@
     } else {
         print('MySQL query failed with error: ' . mysql_error());
     }
-   $result = mysql_query("SELECT MethodName, COUNT(*) FROM activity_logs 
-				WHERE NOW() - TIMESTAMP < 500 GROUP BY MethodName ORDER BY COUNT(*) DESC;");
+///////////////////////////////
+//BUILD THE ACTIVITY DATA
+///////////////////////////////
+   $result = mysql_query("SELECT SUB1.MethodName, COUNT(*)
+			 FROM (SELECT UserID, MethodName
+			       FROM activity_logs C1
+			       WHERE TimeStamp >= ALL(SELECT TimeStamp FROM activity_logs C2 WHERE C1.UserID = C2.UserID) AND NOW() - TimeStamp < 500) AS SUB1
+			 GROUP BY SUB1.MethodName
+			 ORDER BY COUNT(*) DESC;");
     if ($result) {
     
         $labels = array();
@@ -58,7 +63,11 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <link rel="stylesheet" href="bootstrap.css" type="text/css" media="screen" title="no title" charset="utf-8">
-   
+       <style type="text/css">
+      body {
+        padding-top: 60px;
+      }
+    </style>
     <!--Don\'t forget to update these paths -->
 
     <script src="libraries/RGraph.common.core.js" ></script>
@@ -76,17 +85,46 @@
 </head>
 <body>
     
-    <h1><span>Labtracker-Live: Live Client</span></h1>
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#">LabTracker Live</a>
+
+          <ul class="nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="liveClientView">Live View</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <p class="pull-right">Logged in as <a href="#">username</a></p>
+
+        </div>
+      </div>
+    </div>
+
+<div class="container-fluid">
+      <div class="sidebar">
+      <div class="well">
+      <h5>I\'m a sidebar!!!</h5>
       <!--black = 171717 23,23,23
       dark blue = 0C5A81 12,90,129
       light grey = D7E0E5 215,224,229
       white = FFFFFF 255,255,255
       orange = D84704 216,71,4
       -->
+      </div>
+      </div>
+<div class="content">
+<div class="row">
+<div class="span8">
     <h2>Current Activity</h2>
-    <canvas id="activityCanvas" width="900" height="400">[No canvas support]</canvas>
+    <canvas id="activityCanvas" width="700" height="300">[No canvas support]</canvas>
+</div>
+<div class="span8">
     <h2>Recent Compile Errors</h2>
-    <canvas id="compilesCanvas" width="900" height="400">[No canvas support]</canvas>
+    <canvas id="compilesCanvas" width="700" height="300">[No canvas support]</canvas>
+</div>
+</div>
+</div>
     <script>
         /**
         * The onload function creates the chart

@@ -35,11 +35,13 @@ public class EventListener_Main extends Extension implements CompileListener {
 	public void startup(BlueJ blueJ) {
 		int n = JOptionPane.showConfirmDialog(
 				new JFrame(),
-			    "Would you like to opt out of sending your data for this Labtracker session? \n"+"Any data you submit will be " +
-			    		"anonymous, aside from requests for help.",
-			    "Labtracker Live",
+			    "Is it okay if BlueJ sends anonymous information about your session to the professor? \n " +
+			    "The information includes which methods you edit and what compiler errors you experience. \n" +
+			    "During lab, this information helps the professor to "+
+				"identify common problems that students are experiencing.",
+			    "Labtracker Listenerk",
 			    JOptionPane.YES_NO_OPTION);
-		if(n == JOptionPane.YES_OPTION){
+		if(n == JOptionPane.NO_OPTION){
 			//do not register any listeners if the student opted out
 			this.antennae.emitEvent(EventListener_Main.OPT_OUT, "unknown", "unknown");
 			return;

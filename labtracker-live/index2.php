@@ -23,20 +23,26 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-        <link rel="stylesheet" href="masterStyle.css" type="text/css" media="screen" title="no title" charset="utf-8">
+        <link rel="stylesheet" href="bootstrap.css" type="text/css" media="screen" title="no title" charset="utf-8">
 	<script language="javascript" type="text/javascript" charset="utf-8" src="labtracker-live-main.js"></script>
 	<script language="javascript" type="text/javascript" charset="utf-8" src="labtracker-live-server.js"></script>
 	<script language="javascript" type="text/javascript" charset="utf-8" src="labtracker-live-visualization.js"></script>
 	<title>LabTracker-Live</title>
 </head>
 <body>
-	<h1>LabTracker-Live</h1>	
+      <div class="topbar">
+      <div class="topbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#">LabTracker Live</a>
+
+          <ul class="nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="liveClientView.php">Live View</a></li>
+      <li><a href="#contact">SomethingAwesome(\?)</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
 </body>
-        <!--black = 171717
-      dark blue = 0C5A81
-      light grey = D7E0E5
-      white = FFFFFF
-      orange = D84704
-      -->
-	<a href="liveClientView.php">Go to the live view.</a>
 </html>
