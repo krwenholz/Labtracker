@@ -1,0 +1,67 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="stylesheet" href="bootstrap.css" type="text/css" media="screen" title="no title" charset="utf-8">
+       <style type="text/css">
+      body {
+        padding-top: 60px;
+      }
+    </style>
+    <!--Don\'t forget to update these paths -->
+
+    <script src="libraries/RGraph.common.core.js" ></script>
+    <script src="libraries/RGraph.common.tooltips.js" ></script>
+
+    <script src="libraries/RGraph.common.effects.js" ></script>
+    <script src="libraries/RGraph.hbar.js" ></script>
+
+    <script language="javascript" type="text/javascript" charset="utf-8" src="liveViewFunctions.js"></script>
+
+    <title>LabTracker-Live</title>   
+
+</head>
+<body>
+    
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#">LabTracker Live</a>
+
+          <ul class="nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="liveClientView">Live View</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <p class="pull-right">Logged in as <a href="#">username</a></p>
+
+        </div>
+      </div>
+    </div>
+
+<div class="container-fluid">
+      <div class="sidebar">
+      <div class="well">
+      <h5>I\'m a sidebar!!!</h5>
+      <!--black = 171717 23,23,23
+      dark blue = 0C5A81 12,90,129
+      light grey = D7E0E5 215,224,229
+      white = FFFFFF 255,255,255
+      orange = D84704 216,71,4
+      -->
+      </div>
+      </div>
+<div class="content">
+<div class="row">
+<div class="span8">
+    <h2>Current Activity</h2>
+    <canvas id="activityCanvas" width="700" height="300">[No canvas support]</canvas>
+</div>
+<div class="span8">
+    <h2>Recent Compile Errors</h2>
+    <canvas id="compilesCanvas" width="700" height="300">[No canvas support]</canvas>
+</div>
+</div>
+</div>
+<a onclick="fetchData();">grab some data</a>
+</body>
+</html>
