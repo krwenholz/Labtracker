@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException; 
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /**
  * A class for sending lines of output via a websocket.  All events are of the form 
  * "###EVENT_ID###DETAILS_1###DETAILS_2###TIME###" where TIME is of the format "MM/dd/yy HH:mm:ss".
@@ -57,6 +60,7 @@ public class EventAntennae{
 	 * @return the event sent in format  "###EVENT_ID###DETAILS_1###DETAILS_2###TIME###USER_ID###" where TIME is of the format "MM/dd/yy HH:mm:ss".
 	 */
 	public void emitEvent(int eventID, String details1, String details2){
+		
 		String qString = "";
 		if(eventID == EventListener_Main.ACTIVITY_TRACK){
 			qString = "INSERT INTO activity_logs (`MethodName`, UserID) VALUES (?, ?);";

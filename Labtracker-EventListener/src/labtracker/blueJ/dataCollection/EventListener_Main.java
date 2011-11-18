@@ -24,6 +24,7 @@ public class EventListener_Main extends Extension implements CompileListener {
 	public final static int COMPILE_WARNING = 13;
 	public final static int ACTIVITY_TRACK = 17;
 	public final static int OPT_OUT = 19;
+	private long time;
 	
 	public EventListener_Main(){
 		this.antennae = new EventAntennae();
@@ -33,6 +34,7 @@ public class EventListener_Main extends Extension implements CompileListener {
 	 * Called on startup of BlueJ.  Registers as a listener for compile and class events.
 	 */
 	public void startup(BlueJ blueJ) {
+		time = System.currentTimeMillis();
 		int n = JOptionPane.showConfirmDialog(
 				new JFrame(),
 			    "Is it okay if BlueJ sends anonymous information about your session to the professor? \n " +
@@ -67,11 +69,16 @@ public class EventListener_Main extends Extension implements CompileListener {
 	 * @param compErr the compilation error event
 	 */
 	public void compileError(CompileEvent compErr) {
+		long newTime = System.currentTimeMillis();
+		if((newTime - time)<500){
+			return;
+		}time = newTime;
 		String methodName = "unknown";
 		File[] f = compErr.getFiles();
 		if(f.length>0){
 			methodName = this.getMethodSig(f[0].getName(), compErr.getErrorLineNumber());
 		}
+		
 		this.antennae.emitEvent(EventListener_Main.COMPILE_ERROR, ""+methodName,"  Message: "
 				+compErr.getErrorMessage());
 	}
@@ -90,13 +97,13 @@ public class EventListener_Main extends Extension implements CompileListener {
 	 * @param compWarn a compilation event containing a compiler warning
 	 */
 	public void compileWarning(CompileEvent compWarn) {
-		String methodName = "unknown";
+		/*String methodName = "unknown";
 		File[] f = compWarn.getFiles();
 		if(f.length>0){
 			methodName = this.getMethodSig(f[0].getName(), compWarn.getErrorLineNumber());
 		}
 		this.antennae.emitEvent(EventListener_Main.COMPILE_WARNING, ""+methodName,"  Message: "
-				+compWarn.getErrorMessage());
+				+compWarn.getErrorMessage());*/
 	}
 	
 	/**

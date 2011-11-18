@@ -1,8 +1,10 @@
+var hbar1;
+var hbar2;
 /**
 * Fetches data from the server using json, ajax, and php (I think).  
 */
 function fetchData(){
-    alert("looking for data");
+    //alert("looking for data");
     //contact the server
     request = new XMLHttpRequest();
     //set up a handler
@@ -17,11 +19,54 @@ function fetchData(){
 */
 function handleResponse(){
     if (this.readyState == 4 && this.status == 200) {
-	alert(this.responseText);
+	//alert(this.responseText);
 	var myDatas = eval('('+this.responseText+')');
-	alert("using the data");
+	//alert(myDatas);
+	fixInts(myDatas);
+	fixStrings(myDatas);
+	//alert(myDatas[0][0]);
 	drawGraphs(myDatas[0], myDatas[1], myDatas[2], myDatas[3]);
     }
+}
+
+/**
+* Corrects the data type of an array of integers
+*/
+function fixInts(datas){
+    //FIX INTEGERS
+    data = datas[0];
+    data = data.substring(1, data.length);
+    data = data.substring(0, data.length - 1);
+    data = data.split(",");
+    for(i=0; i<data.length; i=i+1){
+	data[i] = parseInt(data[i]);
+    }
+    datas[0] = data;
+    data = datas[2];
+    data = data.substring(1, data.length);
+    data = data.substring(0, data.length - 1);
+    data = data.split(",");
+    for(i=0; i<data.length; i=i+1){
+	data[i] = parseInt(data[i]);
+    }
+    datas[2] = data;
+}
+
+/**
+* Corrects the data type of an array of strings.
+*/
+function fixStrings(datas){
+    //FIX STRINGS
+    data = datas[1];
+    data = data.substring(2, data.length);
+    data = data.substring(0, data.length - 2);
+    data = data.split("', '");
+    datas[1] = data;
+    data = datas[3];
+    data = data.substring(2, data.length);
+    data = data.substring(0, data.length - 2);
+    data = data.split("', '");
+    datas[3] = data;
 }
 
 
@@ -30,12 +75,12 @@ function handleResponse(){
 * The onload function creates the chart
 */
 function drawGraphs(activityData, activityLabels, compileData, compileLabels){
-    var hbar1 = new RGraph.HBar('activityCanvas', activityData);
-      alert('chart initialized');
+     hbar1 = new RGraph.HBar('activityCanvas', activityData);
+      //alert('chart initialized');
       hbar1.Set('chart.background.grid', true);
       hbar1.Set('chart.colors', ['D84704']);
       hbar1.Set('chart.text.color', '#171717');
-      alert('colors initialized');
+      //alert('colors initialized');
 
       hbar1.Set('chart.labels', activityLabels);
 
@@ -48,17 +93,17 @@ function drawGraphs(activityData, activityLabels, compileData, compileLabels){
       hbar1.Set('chart.shadow.offsety', 0);
       hbar1.Set('chart.shadow.blur', 15);
 
-      alert("activities drawn");
+      //alert("activities drawn");
 
-    var hbar2 = new RGraph.HBar('compilesCanvas', compileData);
-      alert('chart initialized');
+     hbar2 = new RGraph.HBar('compilesCanvas', compileData);
+      //alert('chart initialized');
       hbar2.Set('chart.background.grid', true);
       hbar2.Set('chart.colors', ['D84704']);
       hbar2.Set('chart.text.color', '#171717');
-      alert('colors initialized');
+      //alert('colors initialized');
 
       hbar2.Set('chart.labels', compileLabels);
-      alert('chart created');
+      //alert('chart created');
 
       hbar2.Set('chart.gutter.left', 275);
       hbar2.Set('chart.gutter.right', 10);
@@ -69,11 +114,7 @@ function drawGraphs(activityData, activityLabels, compileData, compileLabels){
       hbar2.Set('chart.shadow.offsety', 0);
       hbar2.Set('chart.shadow.blur', 15);
 
-      if (RGraph.isIE8()) {
-	  hbar1.Draw();
-	  hbar2.Draw();
-      } else {
-	  RGraph.Effects.HBar.Grow(hbar1);
-	  RGraph.Effects.HBar.Grow(hbar2);
-      }alert("compiles drawn");
-}
+    hbar1.Draw();
+    hbar2.Draw();
+      //alert("compiles drawn");
+} 

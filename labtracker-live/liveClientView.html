@@ -42,7 +42,6 @@
       <div class="sidebar">
       <div class="well">
       <h5>Useful information</h5>
-      <a onclick="fetchData();">DATA</a>
       <!--black = 171717 23,23,23
       dark blue = 0C5A81 12,90,129
       light grey = D7E0E5 215,224,229
@@ -54,12 +53,18 @@
 <div class="content">
 <div class="row">
 <div class="span11">
-    <h3>Current Activity</h3>
+    <h2>Current Activity</h2>
     <canvas id="activityCanvas" width="700" height="300">[No canvas support]</canvas>
-    <h3>Recent Compile Errors</h3>
+    <h2>Recent Compile Errors</h2>
     <canvas id="compilesCanvas" width="700" height="300">[No canvas support]</canvas>
 </div>
 </div>
 </div>
+<script>
+window.onload = function(){
+    fetchData();
+    setTimeout(fetchData(), 500);
+}
+</script>
 </body>
 </html>
