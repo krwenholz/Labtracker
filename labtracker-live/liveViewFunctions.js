@@ -3,27 +3,28 @@
 */
 function fetchData(){
     alert("looking for data");
-    //json grabs my data and spits it into the graph drawer
-    $.getJSON('updateData.php', function(data){
-	alert('I got data!');
-	drawGraphs(data[0], data[1], data[2], data[3]);
-    });
-   // alert("fetching data");
-   // request = new XMLHttpRequest();
-   // request.onreadystatechange = handleResponse;
-   // request.open("POST", "updateData.php", true);
-   // request.send();
+    //contact the server
+    request = new XMLHttpRequest();
+    //set up a handler
+    request.onreadystatechange = handleResponse;
+    //send the request
+    request.open('POST', 'updateData.php', true);
+    request.send();
 }
 
+/**
+* Handles the response from the server for more data.
+*/
 function handleResponse(){
     if (this.readyState == 4 && this.status == 200) {
-        // Everything is good, the response is received
-	myDatas = this.responseText.split('###');
-	alert("drawing graphs");
-	alert(myDatas
+	alert(this.responseText);
+	var myDatas = eval('('+this.responseText+')');
+	alert("using the data");
 	drawGraphs(myDatas[0], myDatas[1], myDatas[2], myDatas[3]);
     }
 }
+
+
 
 /**
 * The onload function creates the chart

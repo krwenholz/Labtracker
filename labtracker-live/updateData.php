@@ -23,7 +23,7 @@
         $compileData  = array();
     
         while ($row = mysql_fetch_assoc($result)) {
-            $compileLabels[] = $row["methodName"];
+            $compileLabels[] = $row["MethodName"];
             $compileData[]   = $row["COUNT(*)"];
         }
 
@@ -61,5 +61,8 @@
 
 //make a multidimensional array for everything then encode with json
 $arr = array($activityData_string, $activityLabels_string, $compileData_string, $compileLabels_string);
+
+header('Content-Type: application/json');
 echo json_encode($arr);
+mysql_close($connection)
 ?>

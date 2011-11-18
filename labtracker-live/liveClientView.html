@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <link rel="stylesheet" href="bootstrap.css" type="text/css" media="screen" title="no title" charset="utf-8"></link>
+    <link rel="stylesheet" href="bootstrap.css" type="text/css" media="screen" title="no title" charset="utf-8">
        <style type="text/css">
       body {
         padding-top: 60px;
@@ -41,7 +41,8 @@
 <div class="container-fluid">
       <div class="sidebar">
       <div class="well">
-      <h5>I'm a sidebar!!!</h5>
+      <h5>Useful information</h5>
+      <a onclick="fetchData();">DATA</a>
       <!--black = 171717 23,23,23
       dark blue = 0C5A81 12,90,129
       light grey = D7E0E5 215,224,229
@@ -52,16 +53,13 @@
       </div>
 <div class="content">
 <div class="row">
-<div class="span8">
-    <h2>Current Activity</h2>
+<div class="span11">
+    <h3>Current Activity</h3>
     <canvas id="activityCanvas" width="700" height="300">[No canvas support]</canvas>
-</div>
-<div class="span8">
-    <h2>Recent Compile Errors</h2>
+    <h3>Recent Compile Errors</h3>
     <canvas id="compilesCanvas" width="700" height="300">[No canvas support]</canvas>
 </div>
 </div>
 </div>
-<a onclick="fetchData();">grab some data</a>
 </body>
 </html>
