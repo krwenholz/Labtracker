@@ -59,8 +59,7 @@
         print('MySQL query failed with error: ' . mysql_error());
     }
 
-echo $compileData_string.'###';
-echo $compileLabels_string.'###';
-echo $activityData_string.'###';
-echo $activityLabels_string.'###';
+//make a multidimensional array for everything then encode with json
+$arr = array($activityData_string, $activityLabels_string, $compileData_string, $compileLabels_string);
+echo json_encode($arr);
 ?>
