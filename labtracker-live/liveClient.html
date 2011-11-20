@@ -1,0 +1,137 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="stylesheet" href="bootstrap.css" type="text/css" media="screen" title="no title" charset="utf-8">
+       <style type="text/css">
+      body {
+        padding-top: 60px;
+      }
+    </style>
+    
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+
+<script type="text/javascript">
+jQuery.noConflict();
+</script>
+
+<script type="text/javascript" src="js/highcharts.js"></script>
+<script type="text/javascript" src="js/modules/exporting.js"></script>
+<script type="text/javascript" src="js/themes/gray.js"></script>
+
+<script type="text/javascript">
+		var chart;
+		function drawActivity(activityData, activityLabels) {
+			chart = new Highcharts.Chart({
+				chart: {
+					renderTo: 'activityContainer',
+					defaultSeriesType: 'bar'
+				},
+				title: {
+					text: 'Recent Activity'
+				},
+				xAxis: {
+					categories: activityLabels
+				},
+				yAxis: {
+					min: 0,
+					title: {
+						text: 'Frequency',
+						align: 'high'
+					}
+				},
+				tooltip: {
+					formatter: function() {
+						return ''+
+							 this.series.name +': '+ this.y;
+					}
+				},
+				plotOptions: {
+					bar: {
+						dataLabels: {
+							enabled: true
+						}
+					}
+				},
+				legend: {
+					layout: 'vertical',
+					align: 'right',
+					verticalAlign: 'top',
+					x: -100,
+					y: 100,
+					floating: true,
+					borderWidth: 1,
+					backgroundColor: Highcharts.theme.legendBackgroundColor || '#FFFFFF',
+					shadow: true
+				},
+				credits: {
+					enabled: false
+				},
+			        series: [{
+					data: activityData
+				}]
+			});
+			
+			
+		};
+</script>
+    <title>LabTracker-Live</title>   
+
+</head>
+<body>
+    
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#">LabTracker Live</a>
+
+          <ul class="nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="liveClientView.html">Live View</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <p class="pull-right">Logged in as <a href="#">username</a></p>
+
+        </div>
+      </div>
+    </div>
+
+      <!--black = 171717 23,23,23
+      dark blue = 0C5A81 12,90,129
+      light grey = D7E0E5 215,224,229
+      white = FFFFFF 255,255,255
+      orange = D84704 216,71,4
+      -->
+</div>
+</div>
+<div class="content">
+<div class="row16">
+  <h5>Useful information</h5>
+</div>
+<div class="row">
+  <div class="span8">
+    <div id="activityContainer" class="highcharts-container" style="height:410px; margin: 0 2em; clear:both; min-width: 600px"> </div>
+  </div>
+  <div class="span8">
+    <div id="compilesContainer" class="highcharts-container" style="height:410px; margin: 0 2em; clear:both; min-width: 600px"> </div>
+  </div>
+</div>
+</div>
+<a onclick="drawActivity([0,1], ['jack', 'jill']);">draw</a>
+</body>
+</html>
+
+
+
+
+
+
+<!--
+
+</head>
+<body>
+<script>
+
+</script>
+</body>
+</html>
+--> 

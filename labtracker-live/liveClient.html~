@@ -15,9 +15,7 @@
     <script src="libraries/RGraph.common.effects.js" ></script>
     <script src="libraries/RGraph.hbar.js" ></script>
 
-    <script language="javascript" type="text/javascript" charset="utf-8" src="labtracker-live-main.js"></script>
-    <script language="javascript" type="text/javascript" charset="utf-8" src="labtracker-live-server.js"></script>
-    <script language="javascript" type="text/javascript" charset="utf-8" src="labtracker-live-visualization.js"></script>
+    <script language="javascript" type="text/javascript" src="liveViewFunctions.js"></script>
 
     <title>LabTracker-Live</title>   
 
@@ -31,7 +29,7 @@
 
           <ul class="nav">
             <li class="active"><a href="#">Home</a></li>
-            <li><a href="liveClientView">Live View</a></li>
+            <li><a href="liveClientView.html">Live View</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
           <p class="pull-right">Logged in as <a href="#">username</a></p>
@@ -41,16 +39,14 @@
     </div>
 
 <div class="container-fluid">
-      <div class="sidebar">
-      <div class="well">
-      <h5>I\'m a sidebar!!!</h5>
+      <div class="row16">
+      <h5>Useful information</h5>
       <!--black = 171717 23,23,23
       dark blue = 0C5A81 12,90,129
       light grey = D7E0E5 215,224,229
       white = FFFFFF 255,255,255
       orange = D84704 216,71,4
       -->
-      </div>
       </div>
 <div class="content">
 <div class="row">
@@ -64,6 +60,11 @@
 </div>
 </div>
 </div>
-<a onclick="fetchData();">grab some data</a>
+<script>
+window.onload = function(){
+    fetchData();
+    setTimeout(fetchData(), 50);
+}
+</script>
 </body>
 </html>
