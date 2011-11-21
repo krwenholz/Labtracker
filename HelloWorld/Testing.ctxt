@@ -1,6 +1,6 @@
 #BlueJ class context
-comment0.params=
-comment0.target=Testing()
+comment0.params=bob
+comment0.target=Testing(int)
 comment0.text=\n\ Constructor\ for\ objects\ of\ class\ Testing\n
 comment1.params=y
 comment1.target=void\ ampleMethod(int)

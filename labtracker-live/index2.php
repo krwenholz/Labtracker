@@ -38,7 +38,6 @@
           <ul class="nav">
             <li class="active"><a href="#">Home</a></li>
             <li><a href="liveClientView.html">Live View</a></li>
-      <li><a href="#contact">SomethingAwesome(?)</a></li>
           </ul>
         </div>
       </div>

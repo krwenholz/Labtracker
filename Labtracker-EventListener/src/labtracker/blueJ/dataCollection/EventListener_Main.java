@@ -19,7 +19,7 @@ public class EventListener_Main extends Extension implements CompileListener {
 	private EventAntennae antennae;
 	private BlueJ blueJ;
 	private ProgressTracking actTrack;
-	private final static int TRACKING_DELAY = 5;
+	private final static int TRACKING_DELAY = 10;
 	public final static int COMPILE_ERROR = 11;
 	public final static int COMPILE_WARNING = 13;
 	public final static int ACTIVITY_TRACK = 17;
@@ -76,7 +76,7 @@ public class EventListener_Main extends Extension implements CompileListener {
 		String methodName = "unknown";
 		File[] f = compErr.getFiles();
 		if(f.length>0){
-			methodName = this.getMethodSig(f[0].getName(), compErr.getErrorLineNumber());
+			methodName = this.getSignature(f[0].getName(), compErr.getErrorLineNumber());
 		}
 		
 		this.antennae.emitEvent(EventListener_Main.COMPILE_ERROR, ""+methodName,"  Message: "
@@ -154,7 +154,7 @@ public class EventListener_Main extends Extension implements CompileListener {
 		
 	}
 	
-	private String getMethodSig(String className, int errLine){
+	private String getSignature(String className, int errLine){
 		String theClassName = className.substring(0, className.length()-5);
 		String methodName = this.actTrack.findMethod(theClassName, errLine);
 		return methodName;

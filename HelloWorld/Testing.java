@@ -1,5 +1,5 @@
  
-**
+/**
  * Write a description of class Testing here.
  * 
  * @author (your name) 
@@ -13,10 +13,10 @@ public class Testing
     /**
      * Constructor for objects of class Testing
      */
-    public Testing()
+    public Testing(int bob)
     {       
         // initialise instance variables
-        x = 0 ;
+        x = 0  ;                             
     }
 
     /**
@@ -26,11 +26,11 @@ public class Testing
      * @return     the sum of x and y 
      */
     public void ampleMethod(int y){    
-        // put your code here
-        int[] me = new int[4];          
+        // put your code here           
+        int[] me = new int[4]  ;        
         for(int i = 0; i<314; i++){
             if(i%8==0){
-                System.out.println(me[i]);
+                System.out.println(me[i]);    
             }
         }
     }
@@ -41,6 +41,6 @@ public class Testing
     
     public boolean gimme(){
         return true;
-        
+    }
     }
 

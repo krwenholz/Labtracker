@@ -17,6 +17,7 @@ jQuery.noConflict();
 <script type="text/javascript" src="js/highcharts.js"></script>
 <script type="text/javascript" src="js/modules/exporting.js"></script>
 <script type="text/javascript" src="js/themes/gray.js"></script>
+<script type="text/javascript" src="sparkline.min.js"></script>
 
 <script type="text/javascript">
 <!-- A SIMPLE SPACE WILL ENABLE 'WORD WRAPPING' IN LABELS-->
@@ -145,13 +146,79 @@ jQuery.noConflict();
  */
 function updateChartData(){
     /* call the php that has the php array which is json_encoded */
-    $.getJSON('updateData.php', function(data) {
+    jQuery.getJSON('updateData.php', function(data) {
         /* data will hold the php arrays as a javascript object */
+        fixInts(data);
+        fixStrings(data);
         updateActivity(data[0], data[1]);
-        updateCompiles(data[0], data[1]);
+        updateCompiles(data[2], data[3]);
+        var newVal = 0;
+        for(i in data[3]){
+            newVal = newVal + i;
+        }
+        compileErrorsSpark(newVal);
     });
-    setTimeout(updateChartData, 5000);
+    
 };
+
+/**
+* Corrects the data type of an array of integers
+*/
+function fixInts(datas){
+    //FIX INTEGERS
+    data = datas[0];
+    data = data.substring(1, data.length);
+    data = data.substring(0, data.length - 1);
+    data = data.split(",");
+    for(i=0; i<data.length; i=i+1){
+	data[i] = parseInt(data[i]);
+    }
+    datas[0] = data;
+    data = datas[2];
+    data = data.substring(1, data.length);
+    data = data.substring(0, data.length - 1);
+    data = data.split(",");
+    for(i=0; i<data.length; i=i+1){
+	data[i] = parseInt(data[i]);
+    }
+    datas[2] = data;
+}
+
+/**
+* Corrects the data type of an array of strings.
+*/
+function fixStrings(datas){
+    //FIX STRINGS
+    data = datas[1];
+    data = data.substring(2, data.length);
+    data = data.substring(0, data.length - 2);
+    data = data.split("', '");
+    datas[1] = data;
+    data = datas[3];
+    data = data.substring(2, data.length);
+    data = data.substring(0, data.length - 2);
+    data = data.split("', '");
+    datas[3] = data;
+};
+
+/**
+ * Draws a sparkline with the new value at the end.
+**/
+var compSparkValues=[0,0,0,0,0,0,0,0,0,0];
+var skip = 0;
+function compileErrorsSpark(newVal){
+        if(skip == 5){
+	    skip = 0;
+	    return;
+        };
+	skip = skip+1;
+        compSparkValues.shift();
+	compSparkValues.push(newVal);
+        /* Sparklines can also take their values from the first argument 
+        passed to the sparkline() function */
+        jQuery('#compErrorsSpark').sparkline(compSparkValues, {lineColor: 'blue', width: '100px'});
+
+    };
 </script>
     <title>LabTracker-Live</title>   
 
@@ -167,7 +234,6 @@ function updateChartData(){
             <li class="active"><a href="#">Home</a></li>
             <li><a href="liveClientView.html">Live View</a></li>
           </ul>
-          <p class="pull-right">Logged in as <a href="#">username</a></p>
 
         </div>
       </div>
@@ -182,9 +248,16 @@ function updateChartData(){
 </div>
 </div>
 <div class="content">
-<div class="span16">
-  <h3>Useful information</h3>
-  <p>Some useful information and such.</p>
+<div class="row">
+<div class="span3 offset2">
+  <h3 id="sessionName"></h3>
+</div>
+<div class="span5 offset2">
+  <h3>Compile Errors <div id="compErrorsSpark" style="width:100px"></div></h3>
+</div>
+<div class="span3 offset2">
+  
+</div>
 </div>
 <div class="row">
   <div class="span8" style="margin-right=10px;">
@@ -195,15 +268,26 @@ function updateChartData(){
   </div>
 </div>
 </div>
-<script>
+<script type="text/javascript">
 loadActivity([],[]);
 loadCompiles([],[]);
-updateChartData();
+setInterval(updateChartData, 5000);
 </script>
 </body>
 </html>
 
 
+
+<!--
+var i = 0;
+function spark(){
+i= i+3;
+if(i == 30){
+i = 0;
+} compileErrorsSpark(i);
+};
+setInterval(spark, 1000);
+//-->
 <!--
 loadCompiles([0], ['boo']);
 drawCompiles();

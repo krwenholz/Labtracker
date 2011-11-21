@@ -1,5 +1,5 @@
       
-**
+/**
  * Write a description of class hey here.
  * 
  * @author (your name) 
@@ -28,7 +28,7 @@ public class hey
      */
     public int sampleMethod(int x)
     {   
-        // put your code here
-        return x;            
+        // put your code here   
+        return x;                
     }
 }

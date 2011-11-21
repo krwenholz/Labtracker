@@ -2,7 +2,12 @@ package labtracker.blueJ.dataCollection;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import bluej.extensions.BClass;
+import bluej.extensions.BConstructor;
 import bluej.extensions.BMethod;
 import bluej.extensions.BlueJ;
 import bluej.extensions.ClassNotFoundException;
@@ -92,26 +97,39 @@ public class ProgressTracking implements Runnable {
 	 * @return
 	 */
 	public static String findMethod(BClass c,Editor ed){
-		String ret = "unknown";
+		String ret = c.getName();
 		int numLine = ed.getCaretLocation().getLine();
-		for(int i = numLine; i>0 && ret.equals("unknown"); i--){
+		BMethod[] bm = null;
+		BConstructor[] bc = null;
+		try {
+			bm = c.getDeclaredMethods();
+			bc = c.getConstructors();
+		} catch (ProjectNotOpenException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return c.getName();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return c.getName();
+		}
+		for(int i = numLine; i>0 && ret.equals(c.getName()); i--){
 			//grab each line of text as we go up to the top
 			String lineText = ed.getText(new TextLocation(i, 0), new TextLocation(i, ed.getLineLength(i)-1));
 			//System.out.println(lineText);
-			try {
-				for(BMethod m : c.getDeclaredMethods()){
-					String mSig = m.toString();
-					mSig = mSig.substring(0, mSig.indexOf("("));
-					//check if the current line contains any of the method declarations
-					if(lineText.contains(mSig)){
-						ret = m.toString();
+			for(BMethod meth : bm){
+				String mSig = meth.toString();
+				mSig = mSig.substring(0, mSig.indexOf("("));
+				//check if the current line contains any of the method declarations
+				if(lineText.contains(mSig)){
+					ret = ret+": "+meth.toString();
+					return ret;			
+				}for(BConstructor con: bc){
+					if(lineText.contains(con.toString())){
+						ret = con.toString();
 						return ret;
 					}
 				}
-			} catch (ProjectNotOpenException e) {
-				System.out.println(e.getMessage());
-			} catch (ClassNotFoundException e) {
-				System.out.println(e.getMessage());
 			}
 		}
 		//System.out.println("This is ret in findMethod: "+ret);
@@ -119,7 +137,7 @@ public class ProgressTracking implements Runnable {
 	}
 	
 	/**
-	 * Finds the method the caret location is in.  The updating is imperfect, but it works in a crude sense.
+	 * Finds the method the lineNumber is associated with.
 	 * @param className the name of the class
 	 * @param lineNumber line number of location
 	 * @return method name as a string
@@ -133,11 +151,15 @@ public class ProgressTracking implements Runnable {
 			c = this.blueJ.getCurrentPackage().getBClass(className);
 		} catch (ProjectNotOpenException e1) {
 			System.out.println(e1.getMessage());
+
+			JOptionPane.showMessageDialog(new JFrame(), ret);
 			return ret;
 		} catch (PackageNotFoundException e1) {
 			System.out.println(e1.getMessage());
+
+			JOptionPane.showMessageDialog(new JFrame(), ret);
 			return ret;
-		}
+		}ret = c.getName();
 		Editor ed = null;
 		//grab an editor for the class
 		try {
@@ -151,7 +173,7 @@ public class ProgressTracking implements Runnable {
 			e1.printStackTrace();
 			return ret;
 		}
-		for(int i = lineNumber; i>0 && ret.equals("unknown"); i--){
+		for(int i = lineNumber; i>0 && (ret.equals("unknown") || ret.equals(c.getName())); i--){
 			//grab each line of text as we go up to the top
 			String lineText = ed.getText(new TextLocation(i, 0), new TextLocation(i, ed.getLineLength(i)-1));
 			//System.out.println(lineText);
@@ -161,9 +183,15 @@ public class ProgressTracking implements Runnable {
 					mSig = mSig.substring(0, mSig.indexOf("("));
 					//check if the current line contains any of the method declarations
 					if(lineText.contains(mSig)){
-						ret = m.toString();
+						ret = ret+": "+m.toString();
 						System.out.println("This is ret for a compile error: "+ret);
 						return ret;
+					}for(BConstructor con: c.getConstructors()){
+						if(lineText.contains(con.toString())){
+							ret = con.toString();
+							return ret;
+							
+						}
 					}
 				}
 			} catch (ProjectNotOpenException e) {
