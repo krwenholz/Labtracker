@@ -16,7 +16,7 @@ public class Testing
     public Testing(int bob)
     {       
         // initialise instance variables
-        x = 0  ;                             
+        x = 0;                          
     }
 
     /**
@@ -27,7 +27,7 @@ public class Testing
      */
     public void ampleMethod(int y){    
         // put your code here           
-        int[] me = new int[4]  ;        
+        int[] me = new int[4];          
         for(int i = 0; i<314; i++){
             if(i%8==0){
                 System.out.println(me[i]);    
@@ -36,7 +36,7 @@ public class Testing
     }
     
     public int returneight(){
-        return 8;     
+        return 8
     }
     
     public boolean gimme(){
