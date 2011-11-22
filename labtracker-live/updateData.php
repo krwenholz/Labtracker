@@ -39,7 +39,7 @@
    $result = mysql_query("SELECT SUB1.MethodName, COUNT(*)
 			 FROM (SELECT UserID, MethodName
 			       FROM activity_logs C1
-			       WHERE TimeStamp >= ALL(SELECT TimeStamp FROM activity_logs C2 WHERE C1.UserID = C2.UserID) AND NOW() - TimeStamp < 500) AS SUB1
+			       WHERE TimeStamp >= ALL(SELECT TimeStamp FROM activity_logs C2 WHERE C1.UserID = C2.UserID) AND NOW() - TimeStamp < 600) AS SUB1
 			 GROUP BY SUB1.MethodName
 			 ORDER BY COUNT(*) DESC;");
     if ($result) {

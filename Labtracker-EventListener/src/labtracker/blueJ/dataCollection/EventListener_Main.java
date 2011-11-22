@@ -27,7 +27,6 @@ public class EventListener_Main extends Extension implements CompileListener {
 	private long time;
 	
 	public EventListener_Main(){
-		this.antennae = new EventAntennae();
 	}
 	
 	/**
@@ -49,6 +48,7 @@ public class EventListener_Main extends Extension implements CompileListener {
 			return;
 		}//the student did not opt out so we may register listeners
 		this.blueJ = blueJ;
+		this.antennae = new EventAntennae();
 		this.blueJ.addCompileListener(this);	
 		this.actTrack = new ProgressTracking(this.blueJ, this.antennae, EventListener_Main.TRACKING_DELAY);
 		
