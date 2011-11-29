@@ -21,125 +21,127 @@ jQuery.noConflict();
 
 <script type="text/javascript">
 <!-- A SIMPLE SPACE WILL ENABLE 'WORD WRAPPING' IN LABELS-->
-		var activityChart;
-                var activityOptions;
-                
-                function updateActivity(activityData, activityLabels){
-                        activityChart.xAxis[0].setCategories(activityLabels, false);
-                        activityChart.series[0].setData(activityData);
-                };
-		function loadActivity(activityData, activityLabels) {
-				activityOptions = { chart: {//DO NOT CHANGE THIS VARIABLE NAME. IT IS A VARIABLE.
-					renderTo: 'activityContainer',
-					defaultSeriesType: 'bar'
-				},
-				title: {
-					text: 'Recent Activity'
-				},
-				xAxis: {
-					categories: activityLabels
-				},
-				yAxis: {
-					min: 0,
-					title: {
-						text: 'Frequency',
-						align: 'high'
-					}
-				},
-				tooltip: {
-					formatter: function() {
-						return ''+this.x +': '+ this.y;
-					}
-				},
-				plotOptions: {
-					bar: {
-						dataLabels: {
-							enabled: true
-						}
-					}
-				},
-				legend: {
-					layout: 'vertical',
-					align: 'right',
-					verticalAlign: 'top',
-					x: -100,
-					y: 100,
-					floating: true,
-					borderWidth: 1,
-					backgroundColor: Highcharts.theme.legendBackgroundColor || '#FFFFFF',
-					shadow: true
-				},
-				credits: {
-					enabled: false
-				},
-			        series: [{
-					data: activityData
-				}]
+var activityChart;
+var activityOptions;
+
+function updateActivity(activityData, activityLabels){
+        activityChart.xAxis[0].setCategories(activityLabels, 
+            false);
+        activityChart.series[0].setData(activityData);
+};
+function loadActivity(activityData, activityLabels) {
+		activityOptions = { chart: {
+ //DO NOT CHANGE THIS VARIABLE NAME. IT IS A VARIABLE.
+			renderTo: 'activityContainer',
+			defaultSeriesType: 'bar'
+		},
+		title: {
+			text: 'Recent Activity'
+		},
+		xAxis: {
+			categories: activityLabels
+		},
+		yAxis: {
+			min: 0,
+			title: {
+				text: 'Frequency',
+				align: 'high'
 			}
+		},
+		tooltip: {
+			formatter: function() {
+				return ''+this.x +': '+ this.y;
+			}
+		},
+		plotOptions: {
+			bar: {
+				dataLabels: {
+					enabled: true
+				}
+			}
+		},
+		legend: {
+			layout: 'vertical',
+			align: 'right',
+			verticalAlign: 'top',
+			x: -100,
+			y: 100,
+			floating: true,
+			borderWidth: 1,
+			backgroundColor: Highcharts.theme.legendBackgroundColor || '#FFFFFF',
+			shadow: true
+		},
+		credits: {
+			enabled: false
+		},
+	        series: [{
+			data: activityData
+		}]
+	}
 
-                        activityChart = new Highcharts.Chart(activityOptions);
-			
-			
-		};
-                
-                var compilesChart;
-                var compilesOptions;
-                
-                function updateCompiles(compilesData, compilesLabels){
-                        compilesChart.xAxis[0].setCategories(compilesLabels, false);
-                        compilesChart.series[0].setData(compilesData);
-                };
-		function loadCompiles(compilesData, compilesLabels) {
-			compilesOptions = {chart: {//DO NOT CHANGE THIS VARIABLE NAME. IT IS A VARIABLE.
-					renderTo: 'compilesContainer',
-					defaultSeriesType: 'bar'
-				},
-				title: {
-					text: 'Recent Compiles'
-				},
-				xAxis: {
-					categories: compilesLabels
-				},
-				yAxis: {
-					min: 0,
-					title: {
-						text: 'Frequency',
-						align: 'high'
-					}
-				},
-				tooltip: {
-					formatter: function() {
-						return ''+ this.x +': '+ this.y;
-					}
-				},
-				plotOptions: {
-					bar: {
-						dataLabels: {
-							enabled: true
-						}
-					}
-				},
-				legend: {
-					layout: 'vertical',
-					align: 'right',
-					verticalAlign: 'top',
-					x: -100,
-					y: 100,
-					floating: true,
-					borderWidth: 1,
-					backgroundColor: Highcharts.theme.legendBackgroundColor || '#FFFFFF',
-					shadow: true
-				},
-				credits: {
-					enabled: false
-				},
-			        series: [{
-					data: compilesData
-				}]
-			}		
+        activityChart = new Highcharts.Chart(activityOptions);
+	
+	
+};
 
-                        compilesChart = new Highcharts.Chart(compilesOptions);	
-		};
+var compilesChart;
+var compilesOptions;
+
+function updateCompiles(compilesData, compilesLabels){
+        compilesChart.xAxis[0].setCategories(compilesLabels, false);
+        compilesChart.series[0].setData(compilesData);
+};
+function loadCompiles(compilesData, compilesLabels) {
+	compilesOptions = {chart: {//DO NOT CHANGE THIS VARIABLE NAME. IT IS A VARIABLE.
+			renderTo: 'compilesContainer',
+			defaultSeriesType: 'bar'
+		},
+		title: {
+			text: 'Recent Compiles'
+		},
+		xAxis: {
+			categories: compilesLabels
+		},
+		yAxis: {
+			min: 0,
+			title: {
+				text: 'Frequency',
+				align: 'high'
+			}
+		},
+		tooltip: {
+			formatter: function() {
+				return ''+ this.x +': '+ this.y;
+			}
+		},
+		plotOptions: {
+			bar: {
+				dataLabels: {
+					enabled: true
+				}
+			}
+		},
+		legend: {
+			layout: 'vertical',
+			align: 'right',
+			verticalAlign: 'top',
+			x: -100,
+			y: 100,
+			floating: true,
+			borderWidth: 1,
+			backgroundColor: Highcharts.theme.legendBackgroundColor || '#FFFFFF',
+			shadow: true
+		},
+		credits: {
+			enabled: false
+		},
+	        series: [{
+			data: compilesData
+		}]
+	}		
+
+        compilesChart = new Highcharts.Chart(compilesOptions);	
+};
 
 /**
  * Request data from the server, add it to the graphs and set a timeout to request again
@@ -150,6 +152,7 @@ function updateChartData(){
         /* data will hold the php arrays as a javascript object */
         fixInts(data);
         fixStrings(data);
+        hideData(data);
         updateActivity(data[0], data[1]);
         updateCompiles(data[2], data[3]);
         var newVal = 0;
@@ -170,18 +173,20 @@ function fixInts(datas){
     data = data.substring(1, data.length);
     data = data.substring(0, data.length - 1);
     data = data.split(",");
-    for(i=0; i<data.length; i=i+1){
-	data[i] = parseInt(data[i]);
+    goodData = [];
+    for(i=0; i<data.length && i<5; i=i+1){
+	goodData[i] = parseInt(data[i]);
     }
-    datas[0] = data;
+    datas[0] = goodData;
     data = datas[2];
     data = data.substring(1, data.length);
     data = data.substring(0, data.length - 1);
     data = data.split(",");
+    goodData = [];
     for(i=0; i<data.length; i=i+1){
-	data[i] = parseInt(data[i]);
+	goodData[i] = parseInt(data[i]);
     }
-    datas[2] = data;
+    datas[2] = goodData;
 }
 
 /**
@@ -193,12 +198,38 @@ function fixStrings(datas){
     data = data.substring(2, data.length);
     data = data.substring(0, data.length - 2);
     data = data.split("', '");
-    datas[1] = data;
+    goodData = [];
+    for(i=0; i<data.length && i<5; i=i+1){
+        goodData[i] = data[i];
+    }
+    datas[1] = goodData;
     data = datas[3];
     data = data.substring(2, data.length);
     data = data.substring(0, data.length - 2);
     data = data.split("', '");
-    datas[3] = data;
+    goodData = [];
+    for(i=0; i<data.length && i<5; i=i+1){
+        goodData[i] = data[i];
+    }
+    datas[3] = goodData;
+};
+
+/**
+ * Removes entries with a frequency of only one.
+**/
+function hideData(datas){
+    for(i=0; i<(datas[0]).length; i=i+1){
+        if(datas[0][i]==1){
+            datas[0].splice(i,1);
+	    datas[1].splice(i,1);
+	}
+    }
+    for(i=0; i<(datas[2]).length; i=i+1){
+        if(datas[2][i]==1){
+            datas[2].splice(i,1);
+	    datas[3].splice(i,1);
+	}
+    }
 };
 
 /**
@@ -269,18 +300,25 @@ function compileErrorsSpark(newVal){
 </div>
 </div>
 <script type="text/javascript">
-loadCompiles([0], ['boo']);
-loadActivity([0], ['boo']);
+loadCompiles([], []);
+loadActivity([], []);
 var i=0;
 function incI(){
 i = i+1;
-updateCompiles([i, 3], ['jack', 'jill']);
-updateActivity([6, 7, i], ['abbatu:l?+-huhasuh', 'Hy my name is kyle Wen!tuhsau09', '34753498274874593472']);
+datas=["[1, "+i+", 3]", "['ONE DATA', 'jack', 'jill']", "[6, 7, "+i+"]", 
+    "['abbatu:l?+-huhasuh', 'Hy my name is kyle Wen!tuhsau09',"+
+     " '34753498274874593472']"];
+fixInts(datas);
+fixStrings(datas);
+hideData(datas);
+updateCompiles(datas[0], datas[1]);
+updateActivity(datas[2], datas[3]);
 }
 jQuery(window).ready(function(){
 incI();
 });
 setInterval(incI, 5000);
+//THE ACTUAL CODE
 //loadActivity([],[]);
 //loadCompiles([],[]);
 //setInterval(updateChartData, 5000);

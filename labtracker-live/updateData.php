@@ -1,22 +1,21 @@
 <?php
-
-   /**
-    * Change these to your own credentials
-    */
-	//echo("I'm in the php");
+    //echo("I'm in the php");
     $hostname = "10.150.0.169:3306";
     $username = "testuser";
     $password = "testpass";
     $database = "labtracker";
     
     $connection = mysql_connect($hostname, $username, $password) 
-					OR die('Could not connect to MySQL: ' . mysql_error());
+		OR die('Could not connect to MySQL: ' . mysql_error());
     mysql_select_db($database);
 ///////////////////////////
 //BUILD THE COMPILE DATA   
 ////////////////////////// 
-   $result = mysql_query("SELECT MethodName, COUNT(*) FROM compile_errors 
-				WHERE NOW() - TIMESTAMP < 5000 GROUP BY MethodName ORDER BY COUNT(*) DESC;");
+   $result = mysql_query("SELECT errorType, COUNT(DISTINCT userID)
+   	     			 FROM compile_errors
+				 WHERE NOW() - TIMESTAMP < 500
+				 GROUP BY errorType
+				 ORDER BY COUNT(DISTINCT userID) DESC;");
     if ($result) {
     
         $compileLabels = array();
@@ -39,7 +38,10 @@
    $result = mysql_query("SELECT SUB1.MethodName, COUNT(*)
 			 FROM (SELECT UserID, MethodName
 			       FROM activity_logs C1
-			       WHERE TimeStamp >= ALL(SELECT TimeStamp FROM activity_logs C2 WHERE C1.UserID = C2.UserID) AND NOW() - TimeStamp < 600) AS SUB1
+			       WHERE TimeStamp >= ALL(SELECT TimeStamp FROM 
+			       	     activity_logs C2 WHERE C1.UserID = 
+				     C2.UserID) AND NOW() - TimeStamp < 600) 
+				     AS SUB1
 			 GROUP BY SUB1.MethodName
 			 ORDER BY COUNT(*) DESC;");
     if ($result) {
@@ -60,7 +62,8 @@
     }
 
 //make a multidimensional array for everything then encode with json
-$arr = array($activityData_string, $activityLabels_string, $compileData_string, $compileLabels_string);
+$arr = array($activityData_string, $activityLabels_string, $compileData_string, 
+     $compileLabels_string);
 
 
 echo json_encode($arr);
