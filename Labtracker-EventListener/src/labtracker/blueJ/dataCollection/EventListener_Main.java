@@ -1,12 +1,18 @@
 package labtracker.blueJ.dataCollection;
 
 import java.io.File;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import bluej.extensions.BProject;
 import bluej.extensions.BlueJ;
 import bluej.extensions.Extension;
+import bluej.extensions.ProjectNotOpenException;
 import bluej.extensions.event.CompileEvent;
 import bluej.extensions.event.CompileListener;
 
@@ -33,7 +39,40 @@ public class EventListener_Main extends Extension implements CompileListener {
 	 * Called on startup of BlueJ.  Registers as a listener for compile and class events.
 	 */
 	public void startup(BlueJ blueJ) {
-		time = System.currentTimeMillis();
+		System.out.println("starting up EventListener");
+		this.time = System.currentTimeMillis();
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy/kk/mm/ss");  
+		boolean isValidTime = false;
+		for(BProject i : blueJ.getOpenProjects()){
+			String name ="";
+			try {
+				name = i.getName();
+			} catch (ProjectNotOpenException e) {
+				// TODO Auto-generated catch block
+				System.out.println("problem using a project");
+				return;
+			}System.out.println(name);
+			String t = name.substring(name.indexOf("##")+2, name.length());
+			try {
+				t = t.replace(".", "/");
+				System.out.println(t);
+				Date d = dateFormat.parse(t);
+				Long time = d.getTime();
+				System.out.println(time);
+				System.out.println("my time "+this.time);
+				if((time > this.time - 3600000)&&(time < this.time + 3600000)){
+						isValidTime = true;
+						break;
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				System.out.println("problem parsing stuff");
+				return;
+			}
+			
+		}if(!isValidTime){
+			return;
+		}
 		int n = JOptionPane.showConfirmDialog(
 				new JFrame(),
 			    "Is it okay if BlueJ sends anonymous information about your session to the professor? \n " +
@@ -43,10 +82,10 @@ public class EventListener_Main extends Extension implements CompileListener {
 			    "Labtracker Listenerk",
 			    JOptionPane.YES_NO_OPTION);
 		if(n == JOptionPane.NO_OPTION){
-			//do not register any listeners if the student opted out
-			this.antennae.emitEvent(EventListener_Main.OPT_OUT, "unknown", "unknown");
 			return;
-		}//the student did not opt out so we may register listeners
+		}
+		System.out.println("finished validating and can now connect");
+		//the student did not opt out so we may register listeners
 		this.blueJ = blueJ;
 		this.antennae = new EventAntennae();
 		this.blueJ.addCompileListener(this);	
@@ -61,6 +100,7 @@ public class EventListener_Main extends Extension implements CompileListener {
 	 * 
 	 */
 	public void terminate(){
+		if(this.antennae == null){return;}
 		this.antennae.closeConnection();
 	}
 	
