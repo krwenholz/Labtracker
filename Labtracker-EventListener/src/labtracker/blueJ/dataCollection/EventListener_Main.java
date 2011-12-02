@@ -60,6 +60,7 @@ public class EventListener_Main extends Extension implements CompileListener {
 				Long time = d.getTime();
 				System.out.println(time);
 				System.out.println("my time "+this.time);
+				System.out.println("current - project specific: "+(this.time-time));
 				if((time > this.time - 3600000)&&(time < this.time + 3600000)){
 						isValidTime = true;
 						break;

@@ -11,10 +11,10 @@
 ///////////////////////////
 //BUILD THE COMPILE DATA   
 ////////////////////////// 
-   $result = mysql_query("SELECT errorType, COUNT(DISTINCT userID)
+   $result = mysql_query("SELECT ErrorType, COUNT(DISTINCT userID)
    	     			 FROM compile_errors
 				 WHERE NOW() - TIMESTAMP < 500
-				 GROUP BY errorType
+				 GROUP BY ErrorType
 				 ORDER BY COUNT(DISTINCT userID) DESC;");
     if ($result) {
     
@@ -22,8 +22,8 @@
         $compileData  = array();
     
         while ($row = mysql_fetch_assoc($result)) {
-            $compileLabels[] = $row["MethodName"];
-            $compileData[]   = $row["COUNT(*)"];
+            $compileLabels[] = $row["ErrorType"];
+            $compileData[]   = $row["COUNT(DISTINCT userID)"];
         }
 
         // Now you can aggregate all the data into one string
