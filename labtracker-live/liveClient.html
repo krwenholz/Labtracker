@@ -1,14 +1,17 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <link rel="stylesheet" href="bootstrap.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="bootstrap.css" type="text/css" media="screen" 
+	  title="no title" charset="utf-8">
        <style type="text/css">
       body {
         padding-top: 60px;
       }
     </style>
     
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript" 
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js">
+</script>
 
 <script type="text/javascript">
 jQuery.noConflict();
@@ -20,68 +23,76 @@ jQuery.noConflict();
 <script type="text/javascript" src="sparkline.min.js"></script>
 
 <script type="text/javascript">
-<!-- A SIMPLE SPACE WILL ENABLE 'WORD WRAPPING' IN LABELS-->
+<!-- A SIMPLE SPACE WILL ENABLE 'WORD WRAPPING' IN LABELS, at least it should-->
+
+/////////////////////
+////  CHARTS    /////
+////////////////////
 var activityChart;
 var activityOptions;
 
+//Change the data for an existing activity chart
 function updateActivity(activityData, activityLabels){
         activityChart.xAxis[0].setCategories(activityLabels, 
             false);
         activityChart.series[0].setData(activityData);
 };
-function loadActivity(activityData, activityLabels) {
-		activityOptions = { chart: {
- //DO NOT CHANGE THIS VARIABLE NAME. IT IS A VARIABLE.
-			renderTo: 'activityContainer',
-			defaultSeriesType: 'bar'
-		},
-		title: {
-			text: 'Recent Activity'
-		},
-		xAxis: {
-			categories: activityLabels
-		},
-		yAxis: {
-			min: 0,
-			title: {
-				text: 'Frequency',
-				align: 'high'
-			}
-		},
-		tooltip: {
-			formatter: function() {
-				return ''+this.x +': '+ this.y;
-			}
-		},
-		plotOptions: {
-			bar: {
-				dataLabels: {
-					enabled: true
-				}
-			}
-		},
-		legend: {
-			layout: 'vertical',
-			align: 'right',
-			verticalAlign: 'top',
-			x: -100,
-			y: 100,
-			floating: true,
-			borderWidth: 1,
-			backgroundColor: Highcharts.theme.legendBackgroundColor || '#FFFFFF',
-			shadow: true
-		},
-		credits: {
-			enabled: false
-		},
-	        series: [{
-			data: activityData
-		}]
-	}
 
-        activityChart = new Highcharts.Chart(activityOptions);
-	
-	
+//Load the initial activity chart
+function loadActivity(activityData, activityLabels) {
+	activityOptions = { chart: {
+        //DO NOT CHANGE THIS VARIABLE NAME. IT IS A VARIABLE.
+		renderTo: 'activityContainer',
+		defaultSeriesType: 'bar'
+	},
+	title: {
+		text: 'Recent Activity'
+	},
+	xAxis: {
+		categories: activityLabels
+	},
+	yAxis: {
+		min: 0,
+		title: {
+			text: 'Frequency',
+			align: 'high'
+		}
+	},
+	tooltip: {
+		formatter: function() {
+			return ''+this.x +': '+ this.y;
+		}
+	},
+	plotOptions: {
+		bar: {
+			dataLabels: {
+				enabled: true
+			}
+		}
+	},
+	legend: {
+		layout: 'vertical',
+		align: 'right',
+		verticalAlign: 'top',
+		x: -100,
+		y: 100,
+		floating: true,
+		borderWidth: 1,
+		backgroundColor: Highcharts.theme.legendBackgroundColor 
+                    || '#FFFFFF',
+		shadow: true
+	},
+	credits: {
+		enabled: false
+	},
+        series: [{
+		data: activityData
+	}]
+    }
+    //Last: create the chart
+    activityChart = new Highcharts.Chart(activityOptions);
+
+
 };
 
 var compilesChart;
@@ -92,7 +103,8 @@ function updateCompiles(compilesData, compilesLabels){
         compilesChart.series[0].setData(compilesData);
 };
 function loadCompiles(compilesData, compilesLabels) {
-	compilesOptions = {chart: {//DO NOT CHANGE THIS VARIABLE NAME. IT IS A VARIABLE.
+	compilesOptions = {chart: {
+        //DO NOT CHANGE THIS VARIABLE NAME. IT IS A VARIABLE.
 			renderTo: 'compilesContainer',
 			defaultSeriesType: 'bar'
 		},
@@ -115,7 +127,7 @@ function loadCompiles(compilesData, compilesLabels) {
 			}
 		},
 		plotOptions: {
-			bar: {
+		 	bar: {
 				dataLabels: {
 					enabled: true
 				}
@@ -129,7 +141,8 @@ function loadCompiles(compilesData, compilesLabels) {
 			y: 100,
 			floating: true,
 			borderWidth: 1,
-			backgroundColor: Highcharts.theme.legendBackgroundColor || '#FFFFFF',
+			backgroundColor: Highcharts.theme.legendBackgroundColor 
+                            || '#FFFFFF',
 			shadow: true
 		},
 		credits: {
@@ -143,6 +156,10 @@ function loadCompiles(compilesData, compilesLabels) {
         compilesChart = new Highcharts.Chart(compilesOptions);	
 };
 
+
+///////////////////////
+////   UTILITIES   ////
+///////////////////////
 /**
  * Request data from the server, add it to the graphs and set a timeout to request again
  */
@@ -247,7 +264,8 @@ function compileErrorsSpark(newVal){
 	compSparkValues.push(newVal);
         /* Sparklines can also take their values from the first argument 
         passed to the sparkline() function */
-        jQuery('#compErrorsSpark').sparkline(compSparkValues, {lineColor: 'blue', width: '100px'});
+        jQuery('#compErrorsSpark').sparkline(compSparkValues, 
+				  {lineColor: 'blue', width: '100px'});
 
     };
 </script>
@@ -300,6 +318,12 @@ function compileErrorsSpark(newVal){
 </div>
 </div>
 <script type="text/javascript">
+//THE ACTUAL CODE for initializing the data
+loadActivity([],[]);
+loadCompiles([],[]);
+setInterval(updateChartData, 5000);
+
+//TESTING CODE
 //loadCompiles([], []);
 //loadActivity([], []);
 //var i=0;
@@ -318,38 +342,6 @@ function compileErrorsSpark(newVal){
 //incI();
 //});
 //setInterval(incI, 5000);
-//THE ACTUAL CODE
-loadActivity([],[]);
-loadCompiles([],[]);
-setInterval(updateChartData, 5000);
 </script>
 </body>
 </html>
-
-
-
-<!--
-var i = 0;
-function spark(){
-i= i+3;
-if(i == 30){
-i = 0;
-} compileErrorsSpark(i);
-};
-setInterval(spark, 1000);
-//-->
-<!--
-loadCompiles([0], ['boo']);
-drawCompiles();
-loadActivity([0], ['boo']);
-drawActivity();
-var i=0;
-function incI(){
-i = i+1;
-updateCompiles([i, 3], ['jack', 'jill']);
-updateActivity([6, 7, i], ['abbatu:l?+-huhasuh', 'Hy my name is kyle Wen!tuhsau09', '34753498274874593472']);
-}
-jQuery(window).ready(function(){
-incI();
-});
-setInterval(incI, 5000);-->

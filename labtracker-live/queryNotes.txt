@@ -1,8 +1,0 @@
-This guy goes through the compile_errors database and selects the most recent error for each student.  It uses TimeStamp to rule out old entries (in hundredths of a minute), a subtable for gathering unique method names by UserID, and then it counts the occurrences of the method names from the table.
-
-"SELECT SUB1.methodName, COUNT(*)
-			 FROM (SELECT UserID, methodName
-			       FROM compile_errors C1
-			       WHERE TimeStamp >= ALL(SELECT TimeStamp FROM compile_errors C2 WHERE C1.UserID = C2.UserID) AND NOW() - TimeStamp < 500) AS SUB1
-			 GROUP BY SUB1.methodName
-			 ORDER BY COUNT(*) DESC;"
