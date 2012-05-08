@@ -1,5 +1,7 @@
 package labtracker.blueJ.dataCollection;
 
+import java.io.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +21,7 @@ import bluej.extensions.editor.TextLocation;
 /** 
  * A class for tracking progress in BlueJ.  The progress tracked is method
  * being worked on.  Some utility methods are included to help with this.
- * @author Kyle Wenholz
+ * @author Kyle Wenholz, Katie Mueller
  **/
 public class ProgressTracking implements Runnable {
 	private BlueJ blueJ;
@@ -59,14 +61,81 @@ public class ProgressTracking implements Runnable {
 		}else{
 		    this.lastTracked = msg;
 		}
-		this.antennae.emitEvent(EventListener_Main.ACTIVITY_TRACK, this.lastTracked, "unknown");
+		this.antennae.emitEvent(EventListener_Main.ACTIVITY_TRACK, this.lastTracked, "unknown");		
 	    } catch (InterruptedException e) {
-		// TODO Auto-generated catch block
 		System.out.println(e.getMessage());
 	    }catch (ProjectNotOpenException e){
 		System.out.println(e.getMessage());
 	    }catch (PackageNotFoundException e){
 		System.out.println(e.getMessage());
+	    }
+	    
+
+	    //this is the diff code!
+	    try {
+	    	
+	        Runtime rt = Runtime.getRuntime();
+	        File path = this.blueJ.getCurrentPackage().getProject().getDir();
+	        path = new File (path, "extensions");
+	        path = new File(path, "diffj");
+	        path = new File(path, "bin");
+	        Process pr = rt.exec("cmd /c diffj ../../../starter ../../../ ", null, path);
+	        
+	        BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));     
+	        
+	        String line = null;
+	        String className = null;
+	        String methodName = null;
+	        String addedCode = "";
+	        boolean hasOffset = false;
+	        int offset = 1;
+	        
+	        while((line = input.readLine()) != null) {
+
+	        	//grab the class name
+	            if(line.endsWith(".java")) {
+	                className = line.substring(line.lastIndexOf("\\")+1,line.length()-5);
+	            }
+	            
+	            String partLine = line;
+	            //check if the message says they have added code
+	            while(partLine.length() > 15) {
+	                if(partLine.startsWith("code added in ") || partLine.startsWith("method added: ")) {
+		            	if(addedCode!=""){
+		            		//emit the previous event
+		            		this.antennae.emitEvent(EventListener_Main.CODE_SNIPPET, className +": "+ methodName, addedCode);
+		            		addedCode = "";
+		            	}
+		            	//reset things
+		            	hasOffset = false;
+		                offset = 1;
+	                    methodName = partLine.substring(14);
+	                }
+	                partLine = partLine.substring(1);
+	            }
+	            
+	            if(line.startsWith(">")) {
+	            	//find the indentation of this chunk of code
+	            	if(!hasOffset) {
+	                    while(line.charAt(offset)=='\u0020') {
+	                        offset++;
+	                    }
+	                    hasOffset = true;
+	                }
+	            	//add the line, minus the chunk's indentation
+	            	addedCode += line.substring(offset) + "\n";
+	            }
+	        }
+
+	        //emit the final event
+	        if(addedCode!=""){
+        		JOptionPane.showMessageDialog(null, className +": "+ methodName +"\n"+ addedCode);
+	        	this.antennae.emitEvent(EventListener_Main.CODE_SNIPPET, className +": "+ methodName, addedCode);
+	        	addedCode = "";
+	        }
+	    }
+	    catch (Exception e) {
+	    	e.printStackTrace();
 	    }
 	}
 	
@@ -92,7 +161,9 @@ public class ProgressTracking implements Runnable {
 		//the class was not in the length map so we add it and return it's method being worked on
 		this.classLengths.put(c.getName(), ed.getTextLength());
 		//return the method being worked on
-		ret = ProgressTracking.findMethod(c, ed);
+		if(ret=="unknown"){
+			ret = ProgressTracking.findMethod(c, ed);
+		}
 	    }if(this.classLengths.get(c.getName())!=ed.getTextLength()){
 		//the class has changed, find the method being worked on and add it to the return
 		this.classLengths.put(c.getName(), ed.getTextLength());
@@ -121,11 +192,9 @@ public class ProgressTracking implements Runnable {
 	    bm = c.getDeclaredMethods();
 	    bc = c.getConstructors();
 	} catch (ProjectNotOpenException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	    return c.getName();
 	} catch (ClassNotFoundException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	    return c.getName();
 	}
@@ -135,8 +204,10 @@ public class ProgressTracking implements Runnable {
 	        new TextLocation(i, ed.getLineLength(i)-1));
 	    //System.out.println(lineText);
 	    for(BMethod meth : bm){
-		String mSig = meth.toString();
-		mSig = mSig.substring(0, mSig.indexOf("("));
+			String mSig = meth.toString();
+			mSig = mSig.substring(0, mSig.indexOf("("));
+
+		/** THIS IS KYLE'S OLD VERSION. IT DID NOT WORK WITH RETURN TYPES.
 		//check if the current line contains any of the method 
 		//declarations
 		if(lineText.contains(mSig)){
@@ -148,7 +219,23 @@ public class ProgressTracking implements Runnable {
 			return ret;
 		    }
 		}
+		*/
+
+			String methSig[] = mSig.split(" ");
+			if(lineText.contains(methSig[0]) && lineText.contains(methSig[methSig.length-1])){
+				ret += ": " + meth.toString();
+				return ret;
+			}
 	    }
+	    
+		for(BConstructor con : bc){
+			String conSig[] = con.toString().split(" ");
+			if(lineText.contains(conSig[0]) && lineText.contains(conSig[conSig.length-1])){
+				ret = con.toString();
+				return ret;
+			}
+		}
+		
 	}
 	//System.out.println("This is ret in findMethod: "+ret);
 	return ret;
@@ -183,11 +270,9 @@ public class ProgressTracking implements Runnable {
 	try {
 	    ed = c.getEditor();
 	} catch (ProjectNotOpenException e1) {
-	    // TODO Auto-generated catch block
 	    e1.printStackTrace();
 	    return ret;
 	} catch (PackageNotFoundException e1) {
-	    // TODO Auto-generated catch block
 	    e1.printStackTrace();
 	    return ret;
 	}

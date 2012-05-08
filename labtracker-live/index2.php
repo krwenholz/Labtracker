@@ -19,6 +19,9 @@
 
     mysql_query("ALTER TABLE `activity_logs`  CHANGE COLUMN `SessionID` 
 			`SessionID` VARCHAR(50) NOT NULL DEFAULT"." '". $Result."' AFTER `UserID`;");
+	
+    mysql_query("ALTER TABLE `code_diffs`  CHANGE COLUMN `SessionID` 
+			`SessionID` VARCHAR(50) NOT NULL DEFAULT"." '". $Result."' AFTER `UserID`;");
  ?>
 <html>
 <head>
@@ -37,7 +40,7 @@
 
           <ul class="nav">
             <li class="active"><a href="#">Home</a></li>
-            <li><a href="liveClientView.html">Live View</a></li>
+            <li><a href="liveClient.html">Live View</a></li>
           </ul>
         </div>
       </div>

@@ -18,7 +18,7 @@ import bluej.extensions.event.CompileListener;
 
 /**
  * Listens for events from BlueJ.
- * @author Kyle Wenholz
+ * @author Kyle Wenholz, Katie Mueller
  *
  */
 public class EventListener_Main extends Extension implements CompileListener {
@@ -28,6 +28,7 @@ public class EventListener_Main extends Extension implements CompileListener {
     private final static int TRACKING_DELAY = 10;
     public final static int COMPILE_ERROR = 11;
     public final static int COMPILE_WARNING = 13;
+    public final static int CODE_SNIPPET = 15;
     public final static int ACTIVITY_TRACK = 17;
     public final static int OPT_OUT = 19;
     private long time;
@@ -50,7 +51,6 @@ public class EventListener_Main extends Extension implements CompileListener {
 	    try {
 		name = i.getName();
 			} catch (ProjectNotOpenException e) {
-		// TODO Auto-generated catch block
 		System.out.println("problem using a project");
 		return;
 	    }System.out.println(name);
@@ -69,7 +69,6 @@ public class EventListener_Main extends Extension implements CompileListener {
 		    break;
 		}
 	    } catch (ParseException e) {
-		// TODO Auto-generated catch block
 		System.out.println("problem parsing stuff");
 		return;
 			}
@@ -80,9 +79,9 @@ public class EventListener_Main extends Extension implements CompileListener {
 	int n = JOptionPane.showConfirmDialog(
 	    new JFrame(),
 	    "Is it okay if BlueJ sends anonymous information about your "+
-	    "session to the professor? \n " +
-	    "The information includes which methods you edit and what "+
-	    "compiler errors you experience. \n" +
+	    "session to the professor?\n" +
+	    "The information includes snippets of your code, but does not "+
+	    "include your comments or other identifying information.\n" +
 	    "During lab, this information helps the professor to "+
 	    "identify common problems that students are experiencing.",
 	    "Labtracker Listener",
@@ -206,22 +205,10 @@ public class EventListener_Main extends Extension implements CompileListener {
 	}
     /** 
      * 
+     */
     private String getSignature(String className, int errLine){
 	String theClassName = className.substring(0, className.length()-5);
 	String methodName = this.actTrack.findMethod(theClassName, errLine);
 		return methodName;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

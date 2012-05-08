@@ -1,17 +1,14 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <link rel="stylesheet" href="bootstrap.css" type="text/css" media="screen" 
-	  title="no title" charset="utf-8">
+    <link rel="stylesheet" href="bootstrap.css" type="text/css" media="screen" title="no title" charset="utf-8">
        <style type="text/css">
       body {
         padding-top: 60px;
       }
     </style>
     
-<script type="text/javascript" 
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js">
-</script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 
 <script type="text/javascript">
 jQuery.noConflict();
@@ -20,146 +17,205 @@ jQuery.noConflict();
 <script type="text/javascript" src="js/highcharts.js"></script>
 <script type="text/javascript" src="js/modules/exporting.js"></script>
 <script type="text/javascript" src="js/themes/myTheme.js"></script>
-<script type="text/javascript" src="sparkline.min.js"></script>
 
 <script type="text/javascript">
-<!-- A SIMPLE SPACE WILL ENABLE 'WORD WRAPPING' IN LABELS, at least it should-->
-
-/////////////////////
-////  CHARTS    /////
-////////////////////
+<!-- A SIMPLE SPACE WILL ENABLE 'WORD WRAPPING' IN LABELS-->
 var activityChart;
 var activityOptions;
 
-//Change the data for an existing activity chart
-function updateActivity(activityData, activityLabels){
-        activityChart.xAxis[0].setCategories(activityLabels, 
-            false);
-        activityChart.series[0].setData(activityData);
-};
-
-//Load the initial activity chart
-function loadActivity(activityData, activityLabels) {
-	activityOptions = { chart: {
-        //DO NOT CHANGE THIS VARIABLE NAME. IT IS A VARIABLE.
-		renderTo: 'activityContainer',
-		defaultSeriesType: 'bar'
-	},
-	title: {
-		text: 'Recent Activity'
-	},
-	xAxis: {
-		categories: activityLabels
-	},
-	yAxis: {
-		min: 0,
-		title: {
-			text: 'Frequency',
-			align: 'high'
-		}
-	},
-	tooltip: {
-		formatter: function() {
-			return ''+this.x +': '+ this.y;
-		}
-	},
-	plotOptions: {
-		bar: {
-			dataLabels: {
-				enabled: true
-			}
-		}
-	},
-	legend: {
-		layout: 'vertical',
-		align: 'right',
-		verticalAlign: 'top',
-		x: -100,
-		y: 100,
-		floating: true,
-		borderWidth: 1,
-		backgroundColor: Highcharts.theme.legendBackgroundColor 
-                    || '#FFFFFF',
-		shadow: true
-	},
-	credits: {
-		enabled: false
-	},
-        series: [{
-		data: activityData
-	}]
-    }
-    //Last: create the chart
-    activityChart = new Highcharts.Chart(activityOptions);
-
-
-};
-
-var compilesChart;
-var compilesOptions;
-
-function updateCompiles(compilesData, compilesLabels){
-        compilesChart.xAxis[0].setCategories(compilesLabels, false);
-        compilesChart.series[0].setData(compilesData);
-};
-function loadCompiles(compilesData, compilesLabels) {
-	compilesOptions = {chart: {
-        //DO NOT CHANGE THIS VARIABLE NAME. IT IS A VARIABLE.
-			renderTo: 'compilesContainer',
-			defaultSeriesType: 'bar'
+function loadActivity() {
+		activityOptions = { chart: {
+ /* DO NOT CHANGE THIS VARIABLE NAME. IT IS A VARIABLE. */
+			renderTo: 'activityContainer',
+			defaultSeriesType: 'line',
+			animation: false
 		},
 		title: {
-			text: 'Recent Compiles'
+			text: 'Student Activity',
+			x: -250
 		},
 		xAxis: {
-			categories: compilesLabels
+			min: 0,
+			max: 50,
+			showLastLabel: true,
+			title: {
+				text: 'Time'
+			}
 		},
 		yAxis: {
+			allowDecimals: false,
 			min: 0,
+			tickInterval: 1,
 			title: {
-				text: 'Frequency',
-				align: 'high'
+				text: 'Students'
 			}
 		},
 		tooltip: {
-			formatter: function() {
-				return ''+ this.x +': '+ this.y;
-			}
+			enabled: false
 		},
 		plotOptions: {
-		 	bar: {
-				dataLabels: {
-					enabled: true
-				}
+			series: {
+				connectNulls: false,
+                lineWidth: 20,
+                states: {
+                    hover: {
+                        enabled: false
+                    },
+                },
+                marker: {
+                    enabled: false
+                }
 			}
 		},
 		legend: {
-			layout: 'vertical',
+			enabled: true,
 			align: 'right',
 			verticalAlign: 'top',
-			x: -100,
-			y: 100,
 			floating: true,
 			borderWidth: 1,
-			backgroundColor: Highcharts.theme.legendBackgroundColor 
-                            || '#FFFFFF',
-			shadow: true
+			backgroundColor: Highcharts.theme.legendBackgroundColor || '#FFFFFF',
+			shadow: false
 		},
 		credits: {
 			enabled: false
 		},
-	        series: [{
-			data: compilesData
+		exporting: {
+			enabled: false
+		},
+// CHANGE THIS PART to match your individual lab, adding a series for each method the students will be editing
+	    series: [{
+			name: 'other',
+			color: 'rgba(220, 220, 220, 1)'
+	    }, {
+			name: 'MiniBrowser.main',									// 1: main method
+			color: 'rgba(200, 200, 255, 1)'
+		}, {
+			name: 'MiniBrowser.MiniBrowser',							// 2: constructor
+			color: 'rgba(110, 110, 205, 1)'
+		}, {
+			name: 'MiniBrowser.actionPerformed',						// 3: helper method
+			color: 'rgba(0, 0, 155, 1)'
+//		}, {
+//			name: 'SynonymMapper.toString',								// (there is no) extension
+//			color: 'rgba(255, 174, 0, 1)'
 		}]
-	}		
+	}
 
-        compilesChart = new Highcharts.Chart(compilesOptions);	
+        activityChart = new Highcharts.Chart(activityOptions);
+	
 };
 
+function updateActivity(activityLabels, activityUsers, activityTimes){
+	
+	//clear every series in the chart to prepare for redraw
+	for(k=0; k<activityChart.series.length; k++){
+		activityChart.series[k].setData([], false);
+	}
 
-///////////////////////
-////   UTILITIES   ////
-///////////////////////
+	//iterate through all our data
+	for(i=0; i<activityLabels.length; i++) {
+		//ignore null users
+		if(activityUsers[i] && activityTimes[i]<50) {
+			//iterate through all the series in chart
+			for(j=0; j<activityChart.series.length; j++) {
+				
+				seriesNo = 0;
+				
+				//find the series that matches the method name
+				if(activityLabels[i] == activityChart.series[j].name) {
+					seriesNo = j;
+				}
+				
+				//if this is the beginning of a new activity chunk, introduce a null point
+				if(i==0 || activityUsers[i]!=activityUsers[i-1] || activityLabels[i]!=activityLabels[i-1]) {
+					activityChart.series[seriesNo].addPoint([(activityTimes[i]+0.01), null], false);
+				}
+
+				//add the data point
+				activityChart.series[seriesNo].addPoint([activityTimes[i], activityUsers[i]], false);
+				
+				//if this is the end of an activity chunk, fill in the last 10sec
+				if(i==activityLabels.length-1 || activityUsers[i]!=activityUsers[i+1] || activityLabels[i]!=activityUsers[i+1]) {
+					activityChart.series[seriesNo].addPoint([activityTimes[i]+0.166666666666667, activityUsers[i]], false);
+				}
+				
+			}
+		}
+	}
+	
+	//now actually redraw the chart
+	activityChart.redraw();
+};
+
+function updateDiffs(methods, diffs, clusters){
+
+	//sort the code snippets by cluster
+	for(i=0; i<methods.length-1; i++) {
+		idxOfMin = i;
+		for(j=i+1; j<methods.length; j++) {
+			if(clusters[j] > clusters[idxOfMin]) {
+				idxOfMin = j;
+			}
+		}
+		temp = methods[i];
+		methods[i] = methods[idxOfMin];
+		methods[idxOfMin] = temp;
+		temp = diffs[i];
+		diffs[i] = diffs[idxOfMin];
+		diffs[idxOfMin] = temp;
+		temp = clusters[i];
+		clusters[i] = clusters[idxOfMin];
+		clusters[idxOfMin] = temp;
+	}
+
+	//reset the diff divs to contain only their headings
+// CHANGE THIS PART so the names match the names of your series
+	document.getElementById("MiniBrowser.main").innerHTML = 
+		"<center><h3>MiniBrowser.main</h3></center>";
+	document.getElementById("MiniBrowser.MiniBrowser").innerHTML = 
+		"<center><h3>MiniBrowser.MiniBrowser</h3></center>";
+	document.getElementById("MiniBrowser.actionPerformed").innerHTML = 
+		"<center><h3>MiniBrowser.actionPerformed</h3></center>";
+
+	//boolean flag for alternating background color
+	gray = true;
+
+	//iterate through all the diffs, adding them to the appropriate div
+// CHANGE THIS PART so the names match the names of your series
+	for(i=0; i<methods.length; i++) {
+		if(methods[i]=="MiniBrowser.main"
+		|| methods[i]=="MiniBrowser.MiniBrowser" 
+		|| methods[i]=="MiniBrowser.actionPerformed" ) {
+			
+			if(gray) {
+				document.getElementById(methods[i]).innerHTML +=
+					"<p style=\"margin:0px; padding:10px; white-space:pre-wrap; background-color:#f4f4f4\">" +
+					"<span style=\"font-weight:bold; text-decoration:underline; margin-left:25px;\">" +
+					clusters[i] + "</span><br>" + diffs[i] + "</p>";
+				gray = false;
+			}
+			else {
+				document.getElementById(methods[i]).innerHTML +=
+					"<p style=\"margin:0px; padding:10px; white-space:pre-wrap; background-color:#ffffff\">" +
+					"<span style=\"font-weight:bold; text-decoration:underline; margin-left:25px;\">" +
+					clusters[i] + "</span><br>" + diffs[i] + "</p>";
+				gray = true;
+			}
+		}
+	}
+};
+
+function updateCodeData(){
+    /* call the php that has the php array which is json_encoded */
+    jQuery.getJSON('updateDiffs.php', function(data) {
+        /* data will hold the php arrays as a javascript object */
+		fixLabels(data, 0);
+		fixDiffs(data, 1);
+		fixClusters(data, 2);
+		updateDiffs(data[0], data[1], data[2]);
+    });
+};
+
 /**
  * Request data from the server, add it to the graphs and set a timeout to request again
  */
@@ -167,107 +223,127 @@ function updateChartData(){
     /* call the php that has the php array which is json_encoded */
     jQuery.getJSON('updateData.php', function(data) {
         /* data will hold the php arrays as a javascript object */
-        fixInts(data);
-        fixStrings(data);
-        hideData(data);
-        updateActivity(data[0], data[1]);
-        updateCompiles(data[2], data[3]);
-        var newVal = 0;
-        for(i in data[3]){
-            newVal = newVal + i;
-        }
-        compileErrorsSpark(newVal);
+		fixLabels(data, 0);
+		fixUsers(data, 1);
+		fixTimes(data, 2);
+		updateActivity(data[0], data[1], data[2]);
     });
-    
 };
 
 /**
 * Corrects the data type of an array of integers
 */
-function fixInts(datas){
-    //FIX INTEGERS
-    data = datas[0];
-    data = data.substring(1, data.length);
-    data = data.substring(0, data.length - 1);
-    data = data.split(",");
-    goodData = [];
-    for(i=0; i<data.length && i<5; i=i+1){
-	goodData[i] = parseInt(data[i]);
-    }
-    datas[0] = goodData;
-    data = datas[2];
-    data = data.substring(1, data.length);
-    data = data.substring(0, data.length - 1);
-    data = data.split(",");
+function fixLabels(datas, idx){
+	data = datas[idx];
+	data = data.substring(1, data.length-1); //get rid of []
+    data = data.split(", ");
     goodData = [];
     for(i=0; i<data.length; i=i+1){
-	goodData[i] = parseInt(data[i]);
-    }
-    datas[2] = goodData;
+		name = data[i];
+		name = name.substring(1, name.length-1); //get rid of ''
+		if(name.indexOf(":") != -1){
+			name = name.substring(0, name.indexOf(":")) + "." + name.substring(name.lastIndexOf(" ")+1, name.indexOf("("));
+		}
+		goodData[i] = name;
+	}
+	datas[idx] = goodData;
 }
 
 /**
-* Corrects the data type of an array of strings.
+* Corrects the data type of an array of integers
 */
-function fixStrings(datas){
-    //FIX STRINGS
-    data = datas[1];
-    data = data.substring(2, data.length);
-    data = data.substring(0, data.length - 2);
-    data = data.split("', '");
+function fixUsers(datas, idx){
+	data = datas[idx];
+	data = data.substring(1, data.length-1); //get rid of []
+    data = data.split(", ");
     goodData = [];
-    for(i=0; i<data.length && i<5; i=i+1){
-        goodData[i] = data[i];
-    }
-    datas[1] = goodData;
-    data = datas[3];
-    data = data.substring(2, data.length);
-    data = data.substring(0, data.length - 2);
-    data = data.split("', '");
-    goodData = [];
-    for(i=0; i<data.length && i<5; i=i+1){
-        goodData[i] = data[i];
-    }
-    datas[3] = goodData;
-};
+	userMap = {};
+	userCount = 1;
+    for(i=0; i<data.length; i=i+1){
+		user = data[i];
+		//currently the way this works is holding a "map" of userIDs to y-values
+		if (!userMap[user]) {
+			userMap[user] = userCount;
+			userCount++;
+		}
+		goodData[i] = userMap[user];
+	}
+    datas[idx] = goodData;
+}
 
 /**
- * Removes entries with a frequency of only one.
-**/
-function hideData(datas){
-    for(i=0; i<(datas[0]).length; i=i+1){
-        if(datas[0][i]==1){
-            datas[0].splice(i,1);
-	    datas[1].splice(i,1);
+* Corrects the data type of an array of integers
+*/
+function fixTimes(datas, idx){
+	data = datas[idx];
+	data = data.substring(1, data.length-1); //get rid of []
+    data = data.split(", ");
+    goodData = [];
+    for(i=0; i<data.length; i=i+1){
+		time = data[i];
+		time = time.substring(14, time.length);
+		minutes = time.substring(0, 2);
+		seconds = time.substring(3, 5);
+		time = minutes*1 + seconds/60;
+		//this assumes that lab started on the hour
+		//to adjust for a :30 start time, use commented out code below
+		/**
+		//adjust for :30 start time
+		if(time >= 30) {
+			goodData[i] = time - 30;
+		}
+		else {
+			goodData[i] = time + 30;
+		}
+		*/
+		goodData[i] = time;
 	}
-    }
-    for(i=0; i<(datas[2]).length; i=i+1){
-        if(datas[2][i]==1){
-            datas[2].splice(i,1);
-	    datas[3].splice(i,1);
-	}
-    }
-};
+    datas[idx] = goodData;
+}
 
 /**
- * Draws a sparkline with the new value at the end.
-**/
-var compSparkValues=[0,0,0,0,0,0,0,0,0,0];
-var skip = 0;
-function compileErrorsSpark(newVal){
-        if(skip == 5){
-	    skip = 0;
-	    return;
-        };
-	skip = skip+1;
-        compSparkValues.shift();
-	compSparkValues.push(newVal);
-        /* Sparklines can also take their values from the first argument 
-        passed to the sparkline() function */
-        jQuery('#compErrorsSpark').sparkline(compSparkValues, 
-				  {lineColor: 'blue', width: '100px'});
+* Corrects the data type of an array of integers
+*/
+function fixDiffs(datas, idx){
+	data = datas[idx];
+	data = data.substring(1, data.length-1); //get rid of []
+    data = data.split("\n, ");
+    goodData = [];
+    for(i=0; i<data.length; i=i+1){
+		diff = data[i];
+		goodData[i] = diff;
+	}
+	datas[idx] = goodData;
+}
 
-    };
+/**
+* Corrects the data type of an array of integers
+*/
+function fixVectors(datas, idx){
+	data = datas[idx];
+	data = data.substring(1, data.length-1); //get rid of []
+    data = data.split("; ");
+    goodData = [];
+    
+    for(i=0; i<data.length; i=i+1){
+		vec = data[i];
+		vec = vec.substring(1, vec.length-1); //get rid of []
+		vec = vec.split(", "); //reformat as array
+		goodData[i] = vec;
+	}
+	datas[idx] = goodData;
+}
+
+/**
+* Corrects the data type of an array of integers
+*/
+function fixClusters(datas, idx){
+	data = datas[idx];
+	data = data.substring(1, data.length-1); //get rid of []
+    data = data.split(", ");
+	datas[idx] = data;
+}
+
 </script>
     <title>LabTracker-Live</title>   
 
@@ -280,68 +356,48 @@ function compileErrorsSpark(newVal){
           <a class="brand" href="#">LabTracker Live</a>
 
           <ul class="nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="liveClientView.html">Live View</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li class="active"><a href="#">Live View</a></li>
           </ul>
 
         </div>
       </div>
     </div>
 
-      <!--black = 171717 23,23,23
-      dark blue = 0C5A81 12,90,129
-      light grey = D7E0E5 215,224,229
-      white = FFFFFF 255,255,255
-      orange = D84704 216,71,4
-      -->
-</div>
-</div>
 <div class="content">
-<div class="row">
-<div class="span3 offset2">
-  <h3 id="sessionName"></h3>
-</div>
-<div class="span5 offset2">
-  <h3>Compile Errors <div id="compErrorsSpark" style="width:100px"></div></h3>
-</div>
-<div class="span3 offset2">
-  
-</div>
-</div>
-<div class="row">
-  <div class="span8" style="margin-right=10px;">
-    <div id="activityContainer" class="highcharts-container" style="height:450px; margin: 0 2em; clear:both; min-width: 600px;"> </div>
-  </div>
-  <div class="span8 offset3">
-    <div id="compilesContainer" class="highcharts-container" style="height:450px; margin: 0 2em; clear:both; min-width: 600px"> </div>
-  </div>
-</div>
+	<div class="row">
+	    <div class="span20">
+			<div id="activityContainer" class="highcharts-container" style="height:700px"> </div>
+	    </div>
+<!-- CHANGE THIS PART to use the same names as those of your series -->
+	    <div class="span7" id="MiniBrowser.main" style="border:5px solid #C8C8FF; padding:0px">
+			<center><h3>MiniBrowser.main</h3></center>
+	    </div>
+	    <div class="span7" id="MiniBrowser.MiniBrowser" style="border:5px solid #6E6ECD; padding:0px">
+			<center><h3>MiniBrowser.MiniBrowser</h3></center>
+	    </div>
+	    <div class="span7" id="MiniBrowser.actionPerformed" style="border:5px solid #00009B; padding:0px">
+			<center><h3>MiniBrowser.actionPerformed</h3></center>
+	    </div>
+	</div>
+	<div class="row">
+		<div class="span22">
+			<div id="diffContainer"> </div>
+		</div>
+	</div>
 </div>
 <script type="text/javascript">
-//THE ACTUAL CODE for initializing the data
-loadActivity([],[]);
-loadCompiles([],[]);
-setInterval(updateChartData, 5000);
+//initalize the chart
+loadActivity();
 
-//TESTING CODE
-//loadCompiles([], []);
-//loadActivity([], []);
-//var i=0;
-//function incI(){
-//i = i+1;
-//datas=["[1, "+i+", 3]", "['ONE DATA', 'jack', 'jill']", "[6, 7, "+i+"]", 
-//    "['abbatu:l?+-huhasuh', 'Hy my name is kyle Wen!tuhsau09',"+
-//     " '34753498274874593472']"];
-//fixInts(datas);
-//fixStrings(datas);
-//hideData(datas);
-//updateCompiles(datas[0], datas[1]);
-//updateActivity(datas[2], datas[3]);
-//}
-//jQuery(window).ready(function(){
-//incI();
-//});
-//setInterval(incI, 5000);
+//first calls to get information showing up
+updateChartData();
+updateCodeData();
+
+//keep calling these methods periodically
+setInterval(updateChartData, 5000);
+setInterval(updateCodeData, 30000);
+
 </script>
 </body>
 </html>
