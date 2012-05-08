@@ -8,8 +8,8 @@ import java.sql.SQLException;
 /**
  * A class for sending lines of output via a websocket.  All events are 
  * currently sent to a MySQL database.
- * @author Kyle Wenholz
- * @version 5.18.2011
+ * @author Kyle Wenholz, Katie Mueller
+ * @version 5.02.2012
  */
 public class EventAntennae{
     private String userID;
@@ -34,10 +34,8 @@ public class EventAntennae{
             System.err.print("ClassNotFoundException: ");
             System.err.println(e.getMessage());
         } catch (InstantiationException e) {
-	    // TODO Auto-generated catch block
 			e.printStackTrace();
 	} catch (IllegalAccessException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 	
@@ -65,11 +63,14 @@ public class EventAntennae{
 	if(eventID == EventListener_Main.ACTIVITY_TRACK){
 	    qString = "INSERT INTO activity_logs (`MethodName`, "+
 		"UserID) VALUES (?, ?);";
+	}if(eventID == EventListener_Main.CODE_SNIPPET){
+		qString = "INSERT INTO code_diffs (`MethodName`, "+
+		"`Diff`, UserID) VALUES (?, ?, ?);";
 	}if(eventID == EventListener_Main.COMPILE_ERROR){
 	    qString = "INSERT INTO compile_errors (`MethodName`, "+
 		"`ErrorType`, UserID) VALUES (?, ?, ?);";
 	}if(eventID == EventListener_Main.COMPILE_WARNING){
-	    qString = "INSERT INTO compile_errors (`MethodName`, "?
+	    qString = "INSERT INTO compile_errors (`MethodName`, "+
 		"`ErrorType`, UserID) VALUES (?, ?, ?);";
 	    System.out.println(qString);
 	    return;
@@ -98,7 +99,6 @@ public class EventAntennae{
 		System.out.println("Statement closed.");
 	    } 
 	}catch (SQLException e) {
-	    // TODO Auto-generated catch block
 	    System.out.println(e.getMessage());
 	}
     }	
@@ -111,7 +111,6 @@ public class EventAntennae{
 	try {
 	    this.conn.close();
 		} catch (SQLException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}System.out.println("Connection Closed.");
     }    
