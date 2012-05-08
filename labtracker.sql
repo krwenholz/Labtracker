@@ -19,7 +19,7 @@ USE `labtracker`;
 # Dumping structure for table labtracker.activity_logs
 CREATE TABLE IF NOT EXISTS `activity_logs` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `MethodName` varchar(50) NOT NULL,
+  `MethodName` varchar(100) NOT NULL,
   `UserID` varchar(50) NOT NULL DEFAULT 'GUEST',
   `SessionID` varchar(50) NOT NULL DEFAULT 'Lab 9',
   `TimeStamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `activity_logs` (
 # Dumping structure for table labtracker.compile_errors
 CREATE TABLE IF NOT EXISTS `compile_errors` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
-  `MethodName` varchar(255) NOT NULL,
+  `MethodName` varchar(100) NOT NULL,
   `ErrorType` varchar(255) NOT NULL,
   `TimeStamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UserID` varchar(50) NOT NULL DEFAULT 'GUEST',
@@ -44,3 +44,13 @@ CREATE TABLE IF NOT EXISTS `compile_errors` (
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+
+CREATE TABLE IF NOT EXISTS `code_diffs` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `MethodName` varchar(100) NOT NULL,
+  `UserID` varchar(50) NOT NULL DEFAULT 'GUEST',
+  `SessionID` varchar(50) NOT NULL DEFAULT 'Lab 9',
+  `TimeStamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Diff` longtext NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
